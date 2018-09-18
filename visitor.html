@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>访客</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .close-icon{transform: rotate(45deg)}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1 arrow2"><a class="block opacity-0" href="myinfo.html"><</a></div>
+        <div class="f8">访客</div>
+        <div class="f1"></div>
+    </header>
+
+    <div class="content">
+        <div id="friendlist">
+            <p class="pad-l-1 bg-gray2 line-height-1 color-gray">2018-08-29</p>
+            <ul>
+                <li class="flex flex-start-x pad-5-1 border-b-gray">
+                    <div class="f1 flex">
+                        <img class="border-radius-y" src="img/pic.jpg" alt="" width="45">
+                        <div class="f1 pad-l-1 ellipsis">AnnWang</div>
+                    </div>
+                    <span class="close-icon"></span>
+                </li>
+                <li class="flex flex-start-x pad-5-1 border-b-gray">
+                    <div class="f1 flex">
+                        <img class="border-radius-y" src="img/pic.jpg" alt="" width="45">
+                        <div class="f1 pad-l-1 ellipsis">AnnWang</div>
+                    </div>
+                    <span class="close-icon"></span>
+                </li>
+                <li class="flex flex-start-x pad-5-1 border-b-gray">
+                    <div class="f1 flex">
+                        <img class="border-radius-y" src="img/pic.jpg" alt="" width="45">
+                        <div class="f1 pad-l-1 ellipsis">AnnWang</div>
+                    </div>
+                    <span class="close-icon"></span>
+                </li>
+            </ul>
+
+            <p class="pad-l-1 bg-gray2 line-height-1 color-gray">2018-08-28</p>
+            <ul>
+                <li class="flex flex-start-x pad-5-1 border-b-gray">
+                    <div class="f1 flex">
+                        <img class="border-radius-y" src="img/pic.jpg" alt="" width="45">
+                        <div class="f1 pad-l-1 ellipsis">AnnWang</div>
+                    </div>
+                    <span class="close-icon"></span>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+        $('#friendlist li>div').click(function(){
+            window.location.href='userinfo.html';
+        });
+        $('#friendlist li').find('.close-icon').click(function(){
+            $(this).hide();
+        })
+    </script>
+
+</body>
+</html>

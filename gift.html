@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>电子贺卡</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        body{background: #f3f3f3;}
+        .gift li{width: 30%;margin:1.5%;}
+        .gift .gif{left:0;top:0;width:30px;line-height: 20px;height:20px;background:#ff7f38;color:#fff; }
+        .gift .gif:before{content: '';position: absolute;width:0;height:0;border:15px solid transparent;border-left:15px solid #ff7f38;border-right:15px solid #ff7f38;left:0;bottom:-15px;transform: scaleY(.6)}
+        .giftlist{left:0;top:40px;}
+        .giftlist ul{width: 200vw;}
+        .giftbox{margin-top:85px;}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1 arrow2"><a class="block opacity-0" href="userinfo.html"><</a></div>
+        <div class="f8">电子贺卡</div>
+        <a href="giftshop.html" class="f1 f12">商城</a>
+    </header>
+
+    <div class="content bg-gray">
+        <ul class="gift flex flex-r-w flex-start-x pad-5">
+            <li class="pad-5 bg-white center re">
+                <img src="img/pic.jpg" alt="" width="50">
+                <p class="pad-t-5">圣诞礼物1</p>
+                <p class="color-orange pad-t-5">$8.00</p>
+                <div class="gif ab f12">GIF</div>
+            </li>
+            <li class="pad-5 bg-white center">
+                <img src="img/pic.jpg" alt="" width="50">
+                <p class="pad-t-5">圣诞礼物1</p>
+                <p class="color-orange pad-t-5">$8.00</p>
+            </li>
+            <li class="pad-5 bg-white center">
+                <img src="img/pic.jpg" alt="" width="50">
+                <p class="pad-t-5">圣诞礼物1</p>
+                <p class="color-orange pad-t-5">$8.00</p>
+            </li>
+            <li class="pad-5 bg-white center">
+                <img src="img/pic.jpg" alt="" width="50">
+                <p class="pad-t-5">圣诞礼物1</p>
+                <p class="color-orange pad-t-5">$8.00</p>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        $('.gift li').click(function () {
+            window.location.href='giftDetail.html'
+        })
+    </script>
+
+</body>
+</html>

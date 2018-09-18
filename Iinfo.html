@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>消息</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1"></div>
+        <div class="f8">消息</div>
+        <div class="f1"></div>
+    </header>
+
+    <div id="app" class="content">
+        <ul v-if="data" id="info" class="line-height-1">
+            <li v-for="(value,key) in data">
+                <a :href="'chat_online.html?roomid='+value.list_id" class="border-b-gray pad-5-1 flex flex-start-y"><img class="border-radius-y" :src="value.roomImg" alt="" width="45">
+                <div class="pad-l-1 f1">
+                    <p>{{value.uname}}</p>
+                    <p class="color-gray">{{value.last_message.content}}</p>
+                </div>
+                <div class="color-gray f13">15:19</div></a>
+            </li>
+        </ul>
+    </div>
+    <footer class="flex center color-666 f13">
+        <a href="index.html" class="f1 active">
+            <img src="img/foot_line.png" alt="" width="25">
+            <p>在线</p>
+        </a>
+        <a href="Iinfo.html" class="f1">
+            <img src="img/foot_info.png" alt="" width="25">
+            <p>消息</p>
+        </a>
+        <a href="Iaction.html" class="f1">
+            <img src="img/foot_notice.png" alt="" width="25">
+            <p>动态</p>
+        </a>
+        <a href="Ifriend.html" class="f1">
+            <img src="img/foot_friend.png" alt="" width="25">
+            <p>好友</p>
+        </a>
+        <a href="Imy.html" class="f1">
+            <img src="img/foot_my.png" alt="" width="25">
+            <p>我</p>
+        </a>
+    </footer>
+    <script src="js/init.js"></script>
+    <script>
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                count:0,
+                data:"",
+                nowPage:1,
+
+            },
+            created:function(){
+                var data={}
+                data.uid=user_id
+                data.token=token
+                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                this.$http.post(
+                    hostUrl+'index.php?app=app&mod=WebMessage&act=roomList',
+                    data,
+                    {emulateJSON:true}
+                ).then(function(res){
+                    console.log(res.data);
+                    this.data=res.data.data.data;
+                    this.count=res.data.data.count;
+                    this.nowPage=res.data.data.nowPage;
+
+                },function(res){
+                    console.log(res.status);
+                });
+            },
+            methods:{
+                addf:function (e) {
+                    $(e.target).addClass('active');
+                    $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
+                        $(e.target).css({bottom: '25px', right: '5px'})
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

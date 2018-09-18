@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>礼物详情</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .giftpic{height:40vh;overflow: hidden;}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1 arrow2"><a class="block opacity-0" href="javascript:history.go(-1)"><</a></div>
+        <div class="f8">礼物详情</div>
+        <div class="f1"></div>
+    </header>
+
+    <div class="content bg-gray">
+        <div class="bg-white ">
+            <div class="giftpic flex border-b-gray">
+                <img src="img/pic.jpg" alt="" width="150">
+            </div>
+            <ul class="pad-1 line-height-2 f15 color-gray">
+                <li class="flex">
+                    <p class="f1">礼物名称：</p>
+                    <p class="f2">color Car</p>
+                </li>
+                <li class="flex">
+                    <p class="f1">价格：</p>
+                    <p class="f2">$18.00</p>
+                </li>
+                <li class="flex">
+                    <p class="f1">会员价：</p>
+                    <p class="f2 color-orange">$14.50</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="buy" class="button bg-blue">购买</div>
+    </div>
+
+    <script>
+        $('#buy').click(function(){
+            window.location.href='paygift.html'
+        })
+    </script>
+
+</body>
+</html>

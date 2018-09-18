@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>好友</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <style>
+        .letter{width:25px;height:calc(100vh - 95px);top:40px;right:0;flex-direction: column;border-left:1px solid #ddd;z-index: 9}
+        #friendlist p{border-top:40px solid #fff;margin-top:-40px;position: relative;z-index: 1}
+        #friendlist ul{position: relative;z-index: 2}
+    </style>
+</head>
+<div id="app">
+    <header>
+        <div class="f1"></div>
+        <div class="f8">好友</div>
+        <div class="f1"></div>
+    </header>
+
+    <div class="content">
+        <div id="friendlist">
+            <template v-if="asort" v-for="(value,key) in asort">
+            <p id="la" class="pad-l-1 bg-gray2 line-height-1 color-gray">{{value}}</p>
+            <ul>
+                <li v-for="(val,keys) in data" v-if="val.ksort==value" class="flex flex-start-x pad-5-1 border-b-gray">
+                    <a :href="'userinfo.html?uid='+val.fid" class="flex flex-start-x"><img class="border-radius-y" :src="val.fdata.avatar_big" alt="" width="45">
+                    <div class="pad-l-1 ellipsis">{{val.fdata.uname}}</div></a>
+                </li>
+            </ul>
+
+            </template>
+
+        </div>
+    </div>
+
+    <!--right ABC-->
+    <!--<div class="letter f12 fix flex space-ard bg-white">
+        <a href="#la">A</a>
+        <a href="#lb">B</a>
+        <a href="#lc">C</a>
+        <a href="#ld">D</a>
+        <a href="#le">E</a>
+        <a href="#lf">F</a>
+        <a href="#lg">G</a>
+        <a href="#lh">H</a>
+        <a href="#li">I</a>
+        <a href="#lj">J</a>
+        <a href="#lk">K</a>
+        <a href="#ll">L</a>
+        <a href="#lm">M</a>
+        <a href="#ln">N</a>
+        <a href="#lo">O</a>
+        <a href="#lp">P</a>
+        <a href="#lq">Q</a>
+        <a href="#lr">R</a>
+        <a href="#ls">S</a>
+        <a href="#lt">T</a>
+        <a href="#lu">U</a>
+        <a href="#lv">V</a>
+        <a href="#lw">W</a>
+        <a href="#lx">X</a>
+        <a href="#ly">Y</a>
+        <a href="#lz">Z</a>
+    </div>-->
+
+    <footer class="flex center color-666 f13">
+        <a href="index.html" class="f1 active">
+            <img src="img/foot_line.png" alt="" width="25">
+            <p>在线</p>
+        </a>
+        <a href="Iinfo.html" class="f1">
+            <img src="img/foot_info.png" alt="" width="25">
+            <p>消息</p>
+        </a>
+        <a href="Iaction.html" class="f1">
+            <img src="img/foot_notice.png" alt="" width="25">
+            <p>动态</p>
+        </a>
+        <a href="Ifriend.html" class="f1">
+            <img src="img/foot_friend.png" alt="" width="25">
+            <p>好友</p>
+        </a>
+        <a href="Imy.html" class="f1">
+            <img src="img/foot_my.png" alt="" width="25">
+            <p>我</p>
+        </a>
+    </footer>
+</div>
+
+<script src="js/init.js"></script>
+<script>
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            count:0,
+            data:"",
+            nowPage:1,
+            asort:''
+
+        },
+        created:function(){
+            var data={}
+            data.uid=user_id
+            data.token=token
+            //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+            this.$http.post(
+                hostUrl+'index.php?app=app&mod=profile&act=following&tab=following&uid='+user_id,
+                data,
+                {emulateJSON:true}
+            ).then(function(res){
+                console.log(res.data);
+                this.data=res.data.data.data;
+                this.asort=res.data.data.asort;
+                this.count=res.data.data.count;
+                this.nowPage=res.data.data.nowPage;
+
+            },function(res){
+                console.log(res.status);
+            });
+        },
+        methods:{
+            addf:function (e) {
+                $(e.target).addClass('active');
+                $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
+                    $(e.target).css({bottom: '25px', right: '5px'})
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

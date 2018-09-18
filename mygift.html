@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>礼物</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .line{width: 50%;height:2px;background:#3668c8;left:0;bottom:0;}
+        .gift_box>div{min-height:calc(100vh - 100px);position: relative;}
+        .gift_box>div p{position: absolute;left:50%;top:50%;transform: translate(-50%,-50%)}
+        .gift li{width: 30%;margin:1.5%;}
+        .gift .gif{left:0;top:0;width:30px;line-height: 20px;height:20px;background:#ff7f38;color:#fff; }
+        .gift .gif:before{content: '';position: absolute;width:0;height:0;border:15px solid ansparent;border-left:15px solid #ff7f38;border-right:15px solid #ff7f38;left:0;bottom:-15px;transform: scaleY(.6)}
+        .giftlist{left:0;top:40px;}
+        .giftlist ul{width: 200vw;}
+        .giftbox{margin-top:85px;}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1 arrow2"><a class="block opacity-0" href="Imy.html"><</a></div>
+        <div class="f8">礼物</div>
+        <div class="f1"></div>
+    </header>
+
+    <div class="content bg-gray">
+        <ul id="gift_list" class="flex border-b-gray pad-t-b-5 center re">
+            <li class="f1 line-height-2 border-r-gray">收到礼物</li>
+            <li class="f1 line-height-2">送出礼物</li>
+            <div class="line ab"></div>
+        </ul>
+        <div class="gift_box">
+            <div>
+                <p class="color-gray">无数据</p>
+
+            </div>
+            <div class="none">
+                <p class="color-gray">无数据</p>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#gift_list >li').click(function () {
+            var index=$(this).index();
+            if(index==0){
+                $('.line').animate({left:0})
+            }
+            if(index==1){
+                $('.line').animate({left:'50%'})
+            }
+            $('.gift_box>div').eq(index).show().siblings().hide();
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>登录</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        body{background:url("img/login_bg.jpg")no-repeat left bottom;background-size: contain;}
+        .title{padding:50px 0 20px}
+        .login_box li div:nth-child(1){width:50px;border-radius: 5px 0 0 5px;margin-right:2px;}
+        .login_box li div:nth-child(2){border-radius: 0 5px 5px 0;}
+    </style>
+</head>
+<body>
+    <div class="pad-1">
+        <p class="title f40 center color-blue">Himew</p>
+        <ul class="login_box pad-l-r-1">
+            <li class="mar-t-b-1 flex flex-stretch">
+                <div class="flex bg-gray2">
+                    <img src="img/email.png" alt="" width="20">
+                </div>
+                <div class="f1 pad-1-5 bg-gray2">
+                    <input id="username" class="col-8 border-no outline-no bg-no" type="text" placeholder="用户名/邮箱">
+                </div>
+            </li>
+            <li class="mar-t-b-1 flex flex-stretch">
+                <div class="col-2 flex bg-gray2">
+                    <img src="img/yaoshi.png" alt="" width="20">
+                </div>
+                <div class="f1 pad-1-5 bg-gray2">
+                    <input id="userpwd" class="col-8 border-no outline-no bg-no" type="password" placeholder="密码">
+                    <img id="eyes" class="fr filter-gray" src="img/eyes.png" alt="" width="20">
+                </div>
+            </li>
+        </ul>
+
+        <div class="pad-1 color-gray f16 mar-b-1">
+            <a href="goback_pwd.html" class="color-gray">忘记密码</a>
+            <a href="register.html" class="fr color-gray">注册账号</a>
+        </div>
+        <div id="login" class="button bg-blue">登录</div>
+
+    </div>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>-->
+    <script>
+        $('#eyes').click(function(){
+            if($(this).hasClass('filter-gray')){
+                $(this).removeClass('filter-gray');
+                $(this).parent().find('input').attr('type','text');
+            }else{
+                $(this).addClass('filter-gray');
+                $(this).parent().find('input').attr('type','password');
+            }
+        });
+
+    </script>
+    
+    <script>
+        var autoload=function () {
+            //https://www.mykissbear.com/index.php?app=app&mod=Passport&act=dologin
+        }
+    </script>
+    <script src="js/init.js"></script>
+    <script>
+        $("#login").click(function () {
+            var username=$('#username').val()
+            var userpwd=$('#userpwd').val()
+            var data={};
+            data.login_email=username;
+            data.login_password=userpwd;
+            $.ajax({
+                type: "POST",
+                //url: "http://test/jsonp.php",
+                data: data,
+                url: hostUrl+'index.php?app=app&mod=Passport&act=dologin',
+                dataType: "json",
+                success: function (json) {
+                    console.log(json);
+                    if(json.status==1){
+                        localStorage.user_id=json.data.uid;
+                        localStorage.token=json.data.token;
+                        window.location.href="index.html";
+                    }
+                },
+                error:function(json){
+                    console.log(json);
+                }
+            });
+        })
+    </script>
+
+
+</body>
+</html>

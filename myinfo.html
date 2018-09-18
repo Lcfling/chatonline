@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>我的信息</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        header{background:rgba(0,0,0,.5);color:#fff;border:none;}
+        footer{height:40px;}
+        .userpic{height:40vh;overflow: hidden;}
+        .arrow:before{right:2px;}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1 arrow2"><a class="block opacity-0" href="Imy.html"><</a></div>
+        <div class="f8">我的信息</div>
+        <div class="f1"><img class="vmid" src="img/zuan.png" alt="" width="25"></div>
+    </header>
+    <div class="userpic flex re">
+        <img src="img/pic.jpg" alt="" width="100%">
+        <a href="visitor.html" class="ab col-10 center pad-b-1 l-b-0">
+            <img class="vmid" src="img/user.png" alt="" width="18">
+            <span class="vmid color-white">634</span>
+        </a>
+        <!--<div class="ab col-10 l-b-0 mar-b-1 center">-->
+            <!--<a href="chat_online.html"><img class="mar-r-1" src="img/user_chat.png" alt="" width="45"></a>-->
+            <!--<img id="sendadd" class="re" src="img/user_add.png" alt="" width="45">-->
+        <!--</div>-->
+    </div>
+    <div style="padding-bottom:50px;">
+        <div id="useraction" class="flex pad-5-1 border-b-5-gray">
+            <span>动态</span>
+            <div class="f1 pad-l-r-1 flex re">
+                <img src="img/pic.jpg" alt="" width="45">
+                <p class="f1 pad-l-1 color-gray">updaye avatar</p>
+                <span class="arrow"></span>
+            </div>
+        </div>
+        <div id="userphoto" class="flex pad-5-1 border-b-5-gray">
+            <span>相册</span>
+            <div class="f1 pad-l-r-1 flex flex-end-x re">
+                <img class="mar-l-5" src="img/pic.jpg" alt="" width="45">
+                <img class="mar-l-5" src="img/pic.jpg" alt="" width="45">
+                <img class="mar-l-5" src="img/pic.jpg" alt="" width="45">
+                <span class="arrow"></span>
+            </div>
+        </div>
+        <div class="pad-5-1 border-b-5-gray">
+            <span>关于我</span>
+            <div class="f1 pad-t-5 color-gray">
+                啊是个好老师洒落的隔阂
+            </div>
+        </div>
+        <ul class="pad-l-r-1 line-height-3">
+            <li class="border-b-gray">
+                <span>用户名</span>
+                <span class="color-gray fr">Tiye</span>
+            </li>
+            <li class="border-b-gray">
+                <span>性别</span>
+                <span class="color-gray fr">女</span>
+            </li>
+            <li class="border-b-gray">
+                <span>生日</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>年龄</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>居住地</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>身高</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>体重</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>学历</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>工作</span>
+                <span class="color-gray fr">无</span>
+            </li>
+            <li class="border-b-gray">
+                <span>婚姻</span>
+                <span class="color-gray fr">无</span>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <script>
+        // $('#sendadd').click(function(){
+        //     $(this).css({left:'0',top:'0',opacity:'1'}).animate({left:'0',top:'-100px',opacity:'0'},300)
+        // });
+        $('#useraction').click(function () {
+            window.location.href='useraction.html'
+        });
+        $('#userphoto').click(function () {
+            window.location.href='photo.html'
+        });
+    </script>
+
+</body>
+</html>

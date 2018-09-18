@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no," />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>升级会员</title>
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="f1 arrow2"><a class="block opacity-0" href="Imy.html"><</a></div>
+        <div class="f8">升级会员</div>
+        <div class="f1"></div>
+    </header>
+
+    <div class="content">
+
+        <div id="viplist">
+            <!--蓝钻vip-->
+            <p class="bg-gray pad-5-1 color-gray">
+                <img class="vmid" src="img/zuan2.png" alt="" width="20">
+                <span class="vmid">蓝钻会员</span>
+            </p>
+            <ul class="pad-l-r-1">
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5 active"></span>
+                    <div class="f1">12个月</div>
+                    <div class="f1 center color-blue">$179.99</div>
+                    <div class="f1 right color-gray">$15.00/月</div>
+                </li>
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">6个月</div>
+                    <div class="f1 center color-blue">$109.99</div>
+                    <div class="f1 right color-gray">$18.33/月</div>
+                </li>
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">3个月</div>
+                    <div class="f1 center color-blue">$59.99</div>
+                    <div class="f1 right color-gray">$20.00/月</div>
+                </li>
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">1个月</div>
+                    <div class="f1 center color-blue">$24.99</div>
+                    <div class="f1 right color-gray">$24.99/月</div>
+                </li>
+            </ul>
+
+            <!--黄钻vip-->
+            <p class="bg-gray pad-5-1 color-gray">
+                <img class="vmid" src="img/zuan.png" alt="" width="20">
+                <span class="vmid">黄钻会员</span>
+            </p>
+            <ul class="pad-l-r-1">
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">12个月</div>
+                    <div class="f1 center color-orange">$599.99</div>
+                    <div class="f1 right color-gray">$50.00/月</div>
+                </li>
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">6个月</div>
+                    <div class="f1 center color-orange">$349.99</div>
+                    <div class="f1 right color-gray">$58.33/月</div>
+                </li>
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">3个月</div>
+                    <div class="f1 center color-orange">$189.99</div>
+                    <div class="f1 right color-gray">$63.33/月</div>
+                </li>
+                <li class="border-b-gray pad-t-b-1 flex">
+                    <span class="radio mar-r-5"></span>
+                    <div class="f1">1个月</div>
+                    <div class="f1 center color-orange">$79.99</div>
+                    <div class="f1 right color-gray">$79.99/月</div>
+                </li>
+            </ul>
+            <div id="buy" class="button bg-blue">购买</div>
+        </div>
+
+        <p class="bg-gray pad-5-1 color-blue">蓝钻会员权限</p>
+        <ul class="pad-l-r-1">
+            <li class="border-b-gray pad-t-b-1 color-gray">
+                send more messages
+            </li>
+            <li class="border-b-gray pad-t-b-1 color-gray">
+                send more messages
+            </li>
+            <li class="border-b-gray pad-t-b-1 color-gray">
+                send more messages
+            </li>
+        </ul>
+
+        <p class="bg-gray pad-5-1 color-orange">黄钻会员权限</p>
+        <ul class="pad-l-r-1">
+            <li class="border-b-gray pad-t-b-1 color-gray">
+                send more messages
+            </li>
+            <li class="border-b-gray pad-t-b-1 color-gray">
+                send more messages
+            </li>
+            <li class="border-b-gray pad-t-b-1 color-gray">
+                send more messages
+            </li>
+        </ul>
+
+
+    </div>
+
+    <script>
+        $('#viplist li').click(function(){
+            $('#viplist li span').removeClass('active');
+            $(this).children('span').addClass('active');
+        });
+        $('#buy').click(function(){
+            window.location.href='pay.html'
+        })
+    </script>
+</body>
+</html>
