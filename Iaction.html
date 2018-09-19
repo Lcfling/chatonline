@@ -128,11 +128,10 @@
             },
             created:function(){
                 var data={}
-                var uid=getQueryString('uid')
-                var type=getQueryString('type')
+                var uid=getQueryString('uid')==null?'':getQueryString('uid')
+                var type=getQueryString('type')==null?'all':getQueryString('type')
                 data.uid=user_id
                 data.token=token
-                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
                 this.$http.post(
                     hostUrl+'index.php?app=app&mod=profile&act=feedlist&type='+type+'&uid='+uid,
                     data,

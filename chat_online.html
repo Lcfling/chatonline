@@ -7,9 +7,11 @@
     <title>在线聊天</title>
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/minirefresh.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vue.dev.js"></script>
     <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/minirefresh.js"></script>
     <style>
         .chat_jifang, .chat_duifang{max-width: 80%;}
         .chat_jifang{background:#9eea6a;}
@@ -40,25 +42,30 @@
         </div>-->
 
         <!--对方-->
-        <div v-if="list" class="pad-l-r-5" ref="msgbox">
-            <p v-bind:class="{active:loadmore}" @click="viewmore">查看更多</p>
-            <template v-for="(value,key) in list">
-                <div v-if="!value.send"  class="flex flex-start-y pad-b-5">
-                    <img :src="value.avatar" alt="" width="40">
-                    <div class="f1 left">
-                        <p class="chat_duifang inline-block bg-white pad-5 border-radius-5 left re mar-l-1" v-html="value.content"></p>
-                    </div>
-                </div>
+        <div id="minirefresh" class="minirefresh-wrap">
+            <div class="minirefresh-scroll">
+                <div v-if="list" class="pad-l-r-5 bg-gray2" ref="msgbox">
+                    <!--<p v-bind:class="{active:loadmore}" @click="viewmore">查看更多</p>-->
+                    <template v-for="(value,key) in list">
+                        <div v-if="!value.send"  class="flex flex-start-y pad-b-5">
+                            <img :src="value.avatar" alt="" width="40">
+                            <div class="f1 left">
+                                <p class="chat_duifang inline-block bg-white pad-5 border-radius-5 left re mar-l-1" v-html="value.content"></p>
+                            </div>
+                        </div>
 
 
-                <div v-else class="flex flex-start-y pad-b-5">
-                    <div class="f1 right">
-                        <p class="chat_jifang inline-block bg-white pad-5 border-radius-5 left re mar-r-1" v-html="value.content"></p>
-                    </div>
-                    <img :src="value.avatar" alt="" width="40">
+                        <div v-else class="flex flex-start-y pad-b-5">
+                            <div class="f1 right">
+                                <p class="chat_jifang inline-block bg-white pad-5 border-radius-5 left re mar-r-1" v-html="value.content"></p>
+                            </div>
+                            <img :src="value.avatar" alt="" width="40">
+                        </div>
+                    </template>
                 </div>
-            </template>
+            </div>
         </div>
+
 
 
 
@@ -150,6 +157,56 @@
                         pullMessage();
                     },self.pullMessageTime*1000)
                 },100);
+                setTimeout(function () {
+                    var miniRefresh = new MiniRefresh({
+                        container: '#minirefresh',
+                        down: {
+                            callback: function() {
+                                // 下拉事件
+                                setTimeout(function () {
+                                    if(self.pullMessageLock){
+                                        return false;
+                                    }
+                                    self.pullMessageLock = true;
+
+
+                                    var data = {roomid:roomid,msgid:self.firstid};
+                                    data.uid=user_id
+                                    data.token=token
+                                    console.log(data.msgid)
+                                    self.$http.post(
+                                        hostUrl+'index.php?app=app&mod=WebMessage&act=getMsgList',
+                                        data,
+                                        {emulateJSON:true}
+                                    ).then(function(res){
+                                        console.log(res.data);
+                                        console.log(self.list)
+                                        if(res.data.status && res.data.data){
+                                            self.list=res.data.data.concat(self.list)
+                                            self.firstid=res.data.data[0].message_id
+                                        }else{
+                                            miniRefresh.down.isLock=true;
+                                        }
+                                        console.log('id'+self.firstid)
+                                        /*for(var i=res.data.data.length-1;i>=0;i--){
+                                            self.list.append(res.data.data[i])
+                                            self.lastMessageId=res.data.data[i].message_id;
+                                        }*/
+                                        self.pullMessageLock = false;
+                                        miniRefresh.endDownLoading();
+                                    },function(res){
+                                        console.log(res);
+                                    });
+                                    return false;
+
+                                },100)
+                            }
+                        },
+                        up: {
+                            isLock:true
+                        }
+                    });
+                },100)
             },
             methods:{
                 submsg:function () {
@@ -182,8 +239,6 @@
                         post,
                         {emulateJSON:true}
                     ).then(function(res){
-                        console.log(res.data);
-                        console.log(self.list)
                         for(var i=0;i<res.data.data.length;i++){
                             self.list.push(res.data.data[i])
                             self.lastMessageId=res.data.data[i].message_id;
@@ -192,7 +247,7 @@
                         var h=self.$refs.msgbox.scrollHeight
                         self.$refs.msgbox.scrollTop=h
                         document.body.scrollTop=600
-                        console.log(self.$refs)
+
                         self.pullMessageLock = false;
                     },function(res){
                         console.log(res);
