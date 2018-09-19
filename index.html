@@ -30,10 +30,10 @@
 
     <div class="content">
         <ul class="girllist flex flex-r-w flex-start-x" v-if="data">
-            <li v-for="(value,key) in data" class="col-5 pad-5 border-b-gray re">
+            <li v-for="(value,key) in data" class="col-5 pad-5 re">
                 <div class="bg-gray">
                     <div class="pic border-radius-5 hidden">
-                        <img :src="value.avatar_big" alt="" width="100%">
+                        <a :href="'userinfo.html?uid='+value.uid"><img :src="value.avatar_big" alt="" width="100%"></a>
                     </div>
                     <div class="bg-white pad-5 border-radius-5 flex">
                         <span>{{value.uname}}</span>
