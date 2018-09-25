@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
-    <style>
-
-    </style>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/minirefresh.js"></script>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="javascript:history.go(-1)"><</a></div>
         <div class="f8">支付</div>
@@ -23,31 +24,32 @@
         <ul class="bg-white pad-l-r-1">
             <li class="line-height-3">
                 订单信息：
-                <span>购买字符</span>
+                <span>{{data.name}}</span>
             </li>
             <li class="line-height-3">
                 应付金额：
-                <span class="color-orange f18">$9.50</span>
+                <span class="color-orange f18">${{data.price}}</span>
             </li>
         </ul>
 
         <p class="pad-5-1 f12">选择为谁支付</p>
         <ul id="payfrd" class="bg-white pad-l-r-1">
             <li class="pad-t-b-1 border-b-gray">
-                <span class="radio2 active mar-r-1 vmid"></span>
+                <span class="radio2 mar-r-1 vmid" v-bind:class="{active : !to}"></span>
                 <span class="vmid">colorCar</span>
             </li>
             <li class="pad-t-b-1 re">
-                <span class="radio2 mar-r-1 vmid"></span>
+                <span class="radio2 mar-r-1 vmid" v-bind:class="{active : to}"></span>
                 <span class="vmid">为我的好友</span>
-                <a href="friendlist.html" class="ab col-6 t-r-0 pad-5 border-gray border-radius-5 mar-t-5 color-gray">好友姓名</a>
-
+                <a v-if="to" :href="'friendlist.html?id='+id" class="ab col-6 t-r-0 pad-5 border-gray border-radius-5 mar-t-5 color-gray">{{to}}</a>
+                <a v-else="to" :href="'friendlist.html?id='+id" class="ab col-6 t-r-0 pad-5 border-gray border-radius-5 mar-t-5 color-gray">好友姓名</a>
             </li>
         </ul>
 
         <p class="pad-5-1 f12">赠言</p>
         <div class="bg-white pad-l-r-1">
-            <textarea class="col-10 mar-t-b-1 border-radius-5 border-gray pad-5" name="" id="" cols="30" rows="3"></textarea>
+            <textarea v-model="message" class="col-10 mar-t-b-1 border-radius-5 border-gray pad-5" name="" id="" cols="30" rows="3"></textarea>
+
         </div>
 
         <p class="pad-5-1 f12">选择支付方式</p>
@@ -59,23 +61,79 @@
                     金币
                 </p>
             </li>
-            <li class="pad-t-b-1 flex flex-start-x">
-                <span class="radio2 mar-r-1"></span>
-                <img src="img/paypal.jpg" alt="" width="90">
-            </li>
+
         </ul>
 
-        <div class="button bg-blue">购买</div>
+        <div class="button bg-blue" @click="pay">购买</div>
 
     </div>
-
+</div>
+    <script src="js/init.js"></script>
     <script>
-        $('#payway li').click(function(){
-            $(this).children('span').addClass('active').parent().siblings().children('span').removeClass('active');
-        });
-        $('#payfrd li').click(function(){
-            $(this).children('span').addClass('active').parent().siblings().children('span').removeClass('active');
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                count:0,
+                data:"",
+                id:0,
+                to:getQueryString('uname'),
+                message:'',
+                poststate:false
+            },
+            created:function(){
+                var data={}
+                data.uid=user_id
+                data.token=token
+                data.id=getQueryString('id')
+                this.id=data.id
+                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                this.$http.post(
+                    hostUrl+'index.php?app=app&mod=gift&act=detail',
+                    data,
+                    {emulateJSON:true}
+                ).then(function(res){
+                    console.log(res.data);
+                    this.data=res.data.data;
+                },function(res){
+                    console.log(res.status);
+                });
+            },
+            methods:{
+                pay:function () {
+                    var self=this
+                    var data={}
+                    if(self.poststate){
+                        return
+                    }
+                    self.poststate=true;
+                    data.uid=user_id
+                    data.token=token
+                    data.touser=self.to
+                    data.cardid=self.id
+                    //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                    self.$http.post(
+                        hostUrl+'index.php?app=app&mod=card&act=dosendcard',
+                        data,
+                        {emulateJSON:true}
+                    ).then(function(res){
+                        console.log(res.data);
+                        self.poststate=true;
+                        if(res.data.status==1){
+                            alert(res.data.data)
+                            window.location.href="mygift.html"
+                        }else{
+                            alert(res.data.data)
+                        }
+
+                    },function(res){
+                        console.log(res.status);
+                        self.poststate=false
+                    });
+                }
+            }
         });
     </script>
+
 </body>
 </html>

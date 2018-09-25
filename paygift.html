@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
-    <style>
-
-    </style>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/minirefresh.js"></script>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="javascript:history.go(-1)"><</a></div>
         <div class="f8">支付</div>
@@ -68,7 +69,44 @@
         <div class="button bg-blue">购买</div>
 
     </div>
+</div>
+    <script src="js/init.js"></script>
+    <script>
 
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                count:0,
+                data:"",
+                id:0
+            },
+            created:function(){
+                var data={}
+                data.uid=user_id
+                data.token=token
+                data.id=getQueryString('id')
+                this.id=data.id
+                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                this.$http.post(
+                    hostUrl+'index.php?app=app&mod=gift&act=detail',
+                    data,
+                    {emulateJSON:true}
+                ).then(function(res){
+                    console.log(res.data);
+                    this.data=res.data.data;
+                    if()
+                },function(res){
+                    console.log(res.status);
+                });
+            },
+            methods:{
+                pay:function () {
+                    var self=this;
+                    window.location.href='paygift.html?id='+self.id
+                }
+            }
+        });
+    </script>
     <script>
         $('#payway li').click(function(){
             $(this).children('span').addClass('active').parent().siblings().children('span').removeClass('active');
