@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
     <style>
 
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1"></div>
         <div class="f8">我</div>
@@ -21,9 +24,9 @@
 
     <div class="content bg-gray">
         <a href="myinfo.html" class="mar-t-5 pad-t-b-1 bg-white flex">
-            <img class="border-radius-y mar-l-1" src="img/user_tx.png" alt="" width="45">
+            <img class="border-radius-y mar-l-1" :src="data.avatar_middle" alt="" width="45">
             <div class="f1 pad-l-1 flex flex-start-x re">
-                <span>Lofiyig</span>
+                <span>{{data.uname}}</span>
                 <img class="mar-l-5" src="img/zuan.png" alt="" width="20">
                 <span class="arrow ab" style="right:0"></span>
             </div>
@@ -34,7 +37,7 @@
                 <div class="f1 border-b-gray pad-r-1 pad-t-b-1 re">
                     <span>Himew VIP</span>
                     <span class="arrow fr"></span>
-                    <span class="color-gray fr pad-r-2">2018-08-30</span>
+                    <span class="color-gray fr pad-r-2">{{data.vipovertime}}</span>
                 </div>
             </a>
             <a href="mygift.html" class="flex">
@@ -49,7 +52,7 @@
                 <div class="f1 border-b-gray pad-r-1 pad-t-b-1 re">
                     <span>翻译包</span>
                     <span class="arrow fr"></span>
-                    <span class="color-gray fr pad-r-2">0字符</span>
+                    <span class="color-gray fr pad-r-2">{{data.score}}字符</span>
                 </div>
             </a>
             <a href="yue.html" class="flex">
@@ -57,7 +60,7 @@
                 <div class="f1 pad-r-1 pad-t-b-1 re">
                     <span>钱包</span>
                     <span class="arrow fr"></span>
-                    <span class="color-orange fr pad-r-2">$0.00</span>
+                    <span class="color-orange fr pad-r-2">${{data.money}}</span>
                 </div>
             </a>
         </div>
@@ -103,5 +106,46 @@
             <p>我</p>
         </a>
     </footer>
+
+
+</div>
+<script src="js/init.js"></script>
+<script>
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            count:0,
+            data:"",
+
+
+        },
+        created:function(){
+            var data={}
+            data.uid=user_id
+            data.token=token
+            //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+            this.$http.post(
+                hostUrl+'index.php?app=app&mod=account&act=index',
+                data,
+                {emulateJSON:true}
+            ).then(function(res){
+                console.log(res.data);
+                this.data=res.data.data;
+
+            },function(res){
+                console.log(res.status);
+            });
+        },
+        methods:{
+            addf:function (e) {
+                $(e.target).addClass('active');
+                $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
+                    $(e.target).css({bottom: '25px', right: '5px'})
+                });
+            }
+        }
+    });
+</script>
 </body>
 </html>

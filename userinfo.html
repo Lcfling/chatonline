@@ -28,7 +28,7 @@
         <img :src="data.avatar_original" alt="" width="100%">
         <div class="ab col-10 l-b-0 mar-b-1 center">
             <a href="chat_online.html"><img class="mar-r-1" src="img/user_chat.png" alt="" width="45"></a>
-            <img id="sendadd" class="re" src="img/user_add.png" alt="" width="45">
+            <img id="sendadd" v-bind:class="{none: data.follow_state.following}"  class="re" src="img/user_add.png" alt="" width="45">
         </div>
     </div>
     <div style="padding-bottom:50px;">
@@ -122,6 +122,7 @@
         el:'#app',
         data:{
             data:"",
+            isfollow:false
         },
         created:function(){
             var data={}
@@ -137,7 +138,7 @@
             ).then(function(res){
                 console.log(res.data);
                 this.data=res.data.data;
-                ;
+
 
             },function(res){
                 console.log(res.status);

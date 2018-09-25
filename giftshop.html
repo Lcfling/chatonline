@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/minirefresh.js"></script>
     <style>
         body{background: #f3f3f3;}
         .gift li{width: 30%;margin:1.5%;}
@@ -19,6 +22,7 @@
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="gift.html"><</a></div>
         <div class="f8">真实礼物</div>
@@ -26,92 +30,64 @@
     </header>
     <div class="giftlist fix scroll-x bg-gray Z-2">
         <ul class="pad-t-b-5 border-b-gray center flex flex-start-x flex-r-w">
-            <li class="pad-l-r-1 border-r-gray line-height-2">鲜花</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">饰品</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">手表</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">玩具</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">食品&饮品</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">化妆品</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">箱包</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">数码</li>
-            <li class="pad-l-r-1 border-r-gray line-height-2">其他</li>
+
+            <li v-if="category" v-for="(value,k) in category" class="pad-l-r-1 border-r-gray line-height-2">{{value.classname}}</li>
+
         </ul>
     </div>
 
 
     <div class="giftbox pad-5">
         <ul class="gift flex flex-r-w flex-start-x">
-            <li class="pad-5 bg-white center re">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
+            <li v-if="data" v-for="(value,key) in data" class="pad-5 bg-white center re">
+                <a :href="'giftDetail.html?id='+value.id"><img :src="value.imgpath" alt="" width="50"></a>
+                <p class="pad-t-5">{{value.name}}</p>
+                <p class="color-orange pad-t-5">${{value.price}}</p>
                 <div class="gif ab f12">GIF</div>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center re">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-                <div class="gif ab f12">GIF</div>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center re">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-                <div class="gif ab f12">GIF</div>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
-            </li>
-            <li class="pad-5 bg-white center">
-                <img src="img/pic.jpg" alt="" width="50">
-                <p class="pad-t-5">圣诞礼物1</p>
-                <p class="color-orange pad-t-5">$8.00</p>
             </li>
         </ul>
 
     </div>
-
+</div>
+    <script src="js/init.js"></script>
     <script>
-        $('.gift li').click(function () {
-            window.location.href='giftDetail.html'
-        })
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                count:0,
+                data:"",
+                nowPage:1,
+                category:localStorage.category
+            },
+            created:function(){
+                var data={}
+                data.uid=user_id
+                data.token=token
+                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                this.$http.post(
+                    hostUrl+'index.php?app=app&mod=gift&act=index',
+                    data,
+                    {emulateJSON:true}
+                ).then(function(res){
+                    console.log(res.data);
+                    this.data=res.data.data.data;
+                    this.nowPage=res.data.data.nowPage;
+
+                    this.category=res.data.data.category;
+                },function(res){
+                    console.log(res.status);
+                });
+            },
+            methods:{
+                addf:function (e) {
+                    $(e.target).addClass('active');
+                    $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
+                        $(e.target).css({bottom: '25px', right: '5px'})
+                    });
+                }
+            }
+        });
     </script>
 
 </body>

@@ -246,7 +246,7 @@
                         console.log(self.$refs)
                         var h=self.$refs.msgbox.scrollHeight
                         self.$refs.msgbox.scrollTop=h
-                        document.body.scrollTop=600
+                        minirefresh.scrollTo(100000, 30000)
 
                         self.pullMessageLock = false;
                     },function(res){
@@ -255,40 +255,7 @@
 
                     return false;
                 },
-                viewmore:function(){
-                    var self=this
-                    if(self.pullMessageLock){
-                        return false;
-                    }
-                    self.pullMessageLock = true;
 
-
-                    var data = {roomid:roomid,msgid:self.firstid};
-                    data.uid=user_id
-                    data.token=token
-                    console.log(data.msgid)
-                    this.$http.post(
-                        hostUrl+'index.php?app=app&mod=WebMessage&act=getMsgList',
-                        data,
-                        {emulateJSON:true}
-                    ).then(function(res){
-                        console.log(res.data);
-                        console.log(self.list)
-                        if(res.data.status && res.data.data){
-                            self.list=res.data.data.concat(self.list)
-                            self.firstid=res.data.data[0].message_id
-                        }
-                        console.log('id'+self.firstid)
-                        /*for(var i=res.data.data.length-1;i>=0;i--){
-                            self.list.append(res.data.data[i])
-                            self.lastMessageId=res.data.data[i].message_id;
-                        }*/
-                        self.pullMessageLock = false;
-                    },function(res){
-                        console.log(res);
-                    });
-                    return false;
-                },
                 choose:function (e) {
                     console.log(e.target.parentNode.title)
                     var face=e.target.parentNode.title
