@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/minirefresh.js"></script>
     <style>
         .giftpic{height:40vh;overflow: hidden;}
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="javascript:history.go(-1)"><</a></div>
         <div class="f8">礼物详情</div>
         <div class="f1"></div>
     </header>
-
     <div class="content bg-gray">
         <div class="bg-white ">
             <div class="giftpic flex border-b-gray">
@@ -27,27 +30,59 @@
             <ul class="pad-1 line-height-2 f15 color-gray">
                 <li class="flex">
                     <p class="f1">礼物名称：</p>
-                    <p class="f2">color Car</p>
+                    <p class="f2">{{data.name}}</p>
                 </li>
                 <li class="flex">
                     <p class="f1">价格：</p>
-                    <p class="f2">$18.00</p>
+                    <p class="f2">${{data.price}}</p>
                 </li>
                 <li class="flex">
                     <p class="f1">会员价：</p>
-                    <p class="f2 color-orange">$14.50</p>
+                    <p class="f2 color-orange">${{data.price}}</p>
                 </li>
             </ul>
         </div>
 
-        <div id="buy" class="button bg-blue">购买</div>
+        <div id="buy" @click="pay" class="button bg-blue"cla>购买</div>
     </div>
-
+</div>
+    <script src="js/init.js"></script>
     <script>
-        $('#buy').click(function(){
-            window.location.href='paygift.html'
-        })
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                count:0,
+                data:"",
+                id:0
+            },
+            created:function(){
+                var data={}
+                data.uid=user_id
+                data.token=token
+                data.id=getQueryString('id')
+                this.id=data.id
+                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                this.$http.post(
+                    hostUrl+'index.php?app=app&mod=gift&act=detail',
+                    data,
+                    {emulateJSON:true}
+                ).then(function(res){
+                    console.log(res.data);
+                    this.data=res.data.data;
+                },function(res){
+                    console.log(res.status);
+                });
+            },
+            methods:{
+                pay:function () {
+                    var self=this;
+                    window.location.href='paygift.html?id='+self.id
+                }
+            }
+        });
     </script>
+
 
 </body>
 </html>
