@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
     <style>
 
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="Imy.html"><</a></div>
         <div class="f8">翻译包</div>
@@ -22,37 +25,37 @@
     <div class="content bg-gray">
         <p class="pad-5-1">购买翻译包</p>
         <ul id="zifulist" class="pad-l-r-1 bg-white">
-            <li class="pad-t-b-1 border-b-gray flex">
+            <li class="pad-t-b-1 border-b-gray flex" @click="choose('radio2')">
                 <img class="mar-r-5" src="img/zifu_icon.png" alt="" width="30" >
                 <p class="f1">2000字符</p>
                 <p class="f1 color-blue center">$10.0</p>
                 <p class="f1 color-orange right">$9.5(9.5折)</p>
             </li>
-            <li class="pad-t-b-1 border-b-gray flex">
+            <li class="pad-t-b-1 border-b-gray flex" @click="choose('radio3')">
                 <img class="mar-r-5" src="img/zifu_icon.png" alt="" width="30" >
                 <p class="f1">4000字符</p>
                 <p class="f1 color-blue center">$20.0</p>
                 <p class="f1 color-orange right">$19.0(9.5折)</p>
             </li>
-            <li class="pad-t-b-1 border-b-gray flex">
+            <li class="pad-t-b-1 border-b-gray flex" @click="choose('radio4')">
                 <img class="mar-r-5" src="img/zifu_icon.png" alt="" width="30" >
                 <p class="f1">10000字符</p>
                 <p class="f1 color-blue center">$50.0</p>
                 <p class="f1 color-orange right">$47.5(9.5折)</p>
             </li>
-            <li class="pad-t-b-1 border-b-gray flex">
+            <li class="pad-t-b-1 border-b-gray flex" @click="choose('radio5')">
                 <img class="mar-r-5" src="img/zifu_icon.png" alt="" width="30" >
                 <p class="f1">20000字符</p>
                 <p class="f1 color-blue center">$100.0</p>
                 <p class="f1 color-orange right">$90.0(9折)</p>
             </li>
-            <li class="pad-t-b-1 border-b-gray flex">
+            <li class="pad-t-b-1 border-b-gray flex" @click="choose('radio6')">
                 <img class="mar-r-5" src="img/zifu_icon.png" alt="" width="30" >
                 <p class="f1">40000字符</p>
                 <p class="f1 color-blue center">$200.0</p>
                 <p class="f1 color-orange right">$180.0(9折)</p>
             </li>
-            <li class="pad-t-b-1 border-b-gray flex">
+            <li class="pad-t-b-1 border-b-gray flex" @click="choose('radio7')">
                 <img class="mar-r-5" src="img/zifu_icon.png" alt="" width="30" >
                 <p class="f1">100000字符</p>
                 <p class="f1 color-blue center">$500.0</p>
@@ -60,10 +63,46 @@
             </li>
         </ul>
     </div>
+</div>
+<script src="js/init.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            count:0,
+            data:"",
+            radio:''
 
+
+        },
+        created:function(){
+            var data={}
+            data.uid=user_id
+            data.token=token
+            //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+            this.$http.post(
+                hostUrl+'index.php?app=app&mod=account&act=index',
+                data,
+                {emulateJSON:true}
+            ).then(function(res){
+                console.log(res.data);
+                this.data=res.data.data;
+
+            },function(res){
+                console.log(res.status);
+            });
+        },
+        methods:{
+            choose:function (data) {
+                window.location.href='pay.html?radio='+data;
+            },
+
+        }
+    });
+</script>
     <script>
         $('#zifulist li').click(function(){
-            window.location.href='pay.html'
+            //window.location.href='pay.html'
         })
     </script>
 

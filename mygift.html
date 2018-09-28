@@ -14,16 +14,20 @@
     <style>
         .line{width: 50%;height:2px;background:#3668c8;left:0;bottom:0;}
         .gift_box>div{min-height:calc(100vh - 100px);position: relative;}
-        .gift_box>div p{position: absolute;left:50%;top:50%;transform: translate(-50%,-50%)}
+        .gift_box>div .color-gray{position: absolute;left:50%;top:50%;transform: translate(-50%,-50%)}
         .gift li{width: 30%;margin:1.5%;}
         .gift .gif{left:0;top:0;width:30px;line-height: 20px;height:20px;background:#ff7f38;color:#fff; }
         .gift .gif:before{content: '';position: absolute;width:0;height:0;border:15px solid ansparent;border-left:15px solid #ff7f38;border-right:15px solid #ff7f38;left:0;bottom:-15px;transform: scaleY(.6)}
-        .giftlist{left:0;top:40px;}
+        .giftlist{display: flex;text-align: center;padding: 6px 0; margin: 0 6px 4px 6px;background: #fff}
+        .giftlist>div{flex: 1}
+        .giftlist>div p{color: #999999}
+        .giftlist>div .title{color: #333}
         .giftlist ul{width: 200vw;}
         .giftbox{margin-top:85px;}
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="Imy.html"><</a></div>
         <div class="f8">礼物</div>
@@ -37,28 +41,103 @@
             <div class="line ab"></div>
         </ul>
         <div class="gift_box">
-            <div>
-                <p class="color-gray">无数据</p>
+            <div style="padding-top: 12px;">
+
+                <p v-if="recive==null" class="color-gray">无数据</p>
+                <template v-else="send">
+                <div v-for="(va,ke) in recive" class="giftlist">
+                    <div>
+                        <p class="title">礼物名称</p>
+                        <p>小熊</p>
+                    </div>
+                    <div>
+                        <p class="title">赠送人</p>
+                        <p>小熊</p>
+                    </div>
+                    <div class="flex">
+                        <p>2018-09-18</p>
+                    </div>
+                </div>
+                </template>
+
 
             </div>
             <div class="none">
-                <p class="color-gray">无数据</p>
+                <p v-if="send==null" class="color-gray">无数据</p>-->
+                <template v-else="send">
+                    <div v-for="(va,ke) in send" class="giftlist">
+                        <div>
+                            <p class="title">礼物名称</p>
+                            <p>小熊</p>
+                        </div>
+                        <div>
+                            <p class="title">赠送人</p>
+                            <p>小熊</p>
+                        </div>
+                        <div class="flex">
+                            <p>2018-09-18</p>
+                        </div>
+                    </div>
+                </template>
 
             </div>
         </div>
     </div>
+</div>
 
+    <script src="js/init.js"></script>
     <script>
-        $('#gift_list >li').click(function () {
-            var index=$(this).index();
-            if(index==0){
-                $('.line').animate({left:0})
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                count:0,
+                send:'',
+                recive:''
+
+            },
+            created:function(){
+                var data={}
+                data.uid=user_id
+                data.token=token
+                //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                setTimeout(function () {
+                    $('#gift_list >li').click(function () {
+                        var index=$(this).index();
+                        if(index==0){
+                            $('.line').animate({left:0})
+                        }
+                        if(index==1){
+                            $('.line').animate({left:'50%'})
+                        }
+                        $('.gift_box>div').eq(index).show().siblings().hide();
+                    })
+                },100)
+                this.$http.post(
+                    hostUrl+'index.php?app=app&mod=gift&act=mygift',
+                    data,
+                    {emulateJSON:true}
+                ).then(function(res){
+                    console.log(res.data);
+                    this.recive=res.data.data.recive;
+                    this.send=res.data.data.sendlist;
+                    this.count=res.data.data.count;
+                    this.nowPage=res.data.data.nowPage;
+
+                },function(res){
+                    console.log(res.status);
+                });
+            },
+            methods:{
+                addf:function (e) {
+                    $(e.target).addClass('active');
+                    $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
+                        $(e.target).css({bottom: '25px', right: '5px'})
+                    });
+                }
             }
-            if(index==1){
-                $('.line').animate({left:'50%'})
-            }
-            $('.gift_box>div').eq(index).show().siblings().hide();
-        })
+        });
     </script>
+
 </body>
 </html>
