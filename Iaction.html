@@ -41,35 +41,21 @@
                         <img :src="va.attach_middle" alt="" width="100%">
                     </span>
                 </div>
-                <div class="liuyan right color-gray">
-                    <img class="vmid" src="img/info_icon.png" alt="" width="20">
-                    <span class="vmid">0</span>
+                <div class="liuyan right color-gray" :data-id="value.feed_id">
+                    <img class="vmid" src="img/info_icon.png" :data-id="value.feed_id" alt="" width="20">
+                    <span class="vmid">{{value.comment_count}}</span>
                 </div>
                 <ul v-if="value.comment_count>0" class="comment bg-gray2 pad-l-r-1 mar-t-1 re">
-                    <li class="border-b-gray pad-t-5">
-                        <p class="con">啦啦啦</p>
+                    <li v-for="(va,ky) in value.commentlist.data" class="border-b-gray pad-t-5">
+                        <p class="con" :uname="va.user_uname" v-html="va.content"></p>
                         <p class="color-gray f12 pad-t-b-5">
-                            <span>昵称</span>
+                            <span>{{va.user_uname}}</span>
                             <span class="pad-l-5">
                                 <img class="vmid" src="img/time_icon.png" alt="" width="15">
-                                <span>2018-08-25 17:22:36</span>
+                                <span>{{va.ctime}}</span>
                             </span>
                         </p>
                     </li>
-                    <li class="border-b-gray pad-t-5">
-                        <p class="con">啦啦啦</p>
-                        <p class="color-gray f12 pad-t-b-5">
-                            <span>昵称</span>
-                            <span class="pad-l-5">
-                                <img class="vmid" src="img/time_icon.png" alt="" width="15">
-                                <span>2018-08-25 17:22:36</span>
-                            </span>
-                        </p>
-                    </li>
-                    <div class="flex color-gray pad-t-b-5">
-                        <img src="img/info2_icon.png" alt="" width="16">
-                        <p class="f1">查看全部11条评论</p>
-                    </div>
                 </ul>
             </li>
             </template>
@@ -81,7 +67,7 @@
         <div class="flex " style="padding-top: 5px">
             <img src="img/tr_icon.png" alt="" width="40">
             <div class="f1 flex border-b-gray mar-l-r-5">
-                <input class="f1 border-no outline-no pad-l-5" type="text">
+                <input v-model="message" id="ly" class="f1 border-no outline-no pad-l-5" type="text">
                 <img class="mar-l-r-5" src="img/face_icon.png" alt="" width="30">
             </div>
             <img src="img/add_icon.png" alt="" width="40">
@@ -124,8 +110,25 @@
             el:'#app',
             data:{
                 data:"",
+                showStatus:false,
+                message:'',
+                condata:{
+                    app_name:'public',
+                    table_name:'feed',
+                    app_uid:0,
+                    row_id:0,
+                    to_comment_id:0,
+                    to_uid:0,
+                    app_row_id:0,
+                    app_row_table:'feed',
+                    content:'',
+                    ifShareFeed:'0',
+                    comment_old:0,
+                    talkbox:this.talkbox
+                }
             },
             created:function(){
+                var self=this;
                 var data={}
                 var uid=getQueryString('uid')==null?'':getQueryString('uid')
                 var type=getQueryString('type')==null?'all':getQueryString('type')
@@ -138,20 +141,84 @@
                 ).then(function(res){
                     console.log(res.data);
                     this.data=res.data.data;
+                    setTimeout(function () {
+                        $('.liuyan').click(function () {
+                            self.uid=$(this).attr('data-id')
+                            $('#shuru').show();
+                            $("#ly").focus();
+                            //console.log(this)
+                            //alert($(this).attr('data-id'))
+                        })
+                        $('#ly').blur(function () {
+                            $('#shuru').hide();
+                        });
 
+
+
+                    },100)
+                    setTimeout(function () {
+                        $('.con').click(function () {
+                            self.message='回复@'+$(this).attr('uname')+'：'
+                            $('#shuru').show();
+                            $("#ly").focus();
+                            //console.log(this)
+                            //alert($(this).attr('data-id'))
+                        })
+
+
+
+                    },100)
 
                 },function(res){
                     console.log(res.status);
                 });
+
             },
             methods:{
-                addf:function (e) {
-                    $(e.target).addClass('active');
-                    $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
-                        $(e.target).css({bottom: '25px', right: '5px'})
+                getCommentList:function (data) {
+                    var data={}
+
+                    data.uid=user_id
+                    data.token=token
+                    data.app_name='public'
+                    data.table='feed'
+                    data.row_id=data;
+                    this.$http.post(
+                        hostUrl+'index.php?app=app&mod=profile&act=getcommentlist',
+                        data,
+                        {emulateJSON:true}
+                    ).then(function(res){
+                        console.log(res.data);
+                        this.data=res.data.data;
+
+
+                    },function(res){
+                        console.log(res.status);
                     });
-                }
-            }
+                },
+                comment:function(uid){
+                    var self=this
+                    self.touid=uid;
+                    var data={
+                        app_name:'public',
+                        table_name:'feed',
+                        app_uid:'',
+                        row_id:this.row_id,
+                        to_comment_id:this.to_comment_id,
+                        to_uid:this.to_uid,
+                        app_row_id:this.app_row_id,
+                        app_row_table:this.app_row_table,
+                        content:content,
+                        ifShareFeed:'0',
+                        comment_old:comment_old,
+                        app_detail_summary:$("#app_detail_summary").val(),
+                        app_detail_url:document.location.href,
+                        talkbox:this.talkbox
+                    }
+                },
+
+            },
+
         });
     </script>
 </body>
