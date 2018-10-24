@@ -47,7 +47,7 @@
                 </div>
                 <ul v-if="value.comment_count>0" class="comment bg-gray2 pad-l-r-1 mar-t-1 re">
                     <li v-for="(va,ky) in value.commentlist.data" class="border-b-gray pad-t-5">
-                        <p class="con" :uname="va.user_uname" v-html="va.content"></p>
+                        <p class="con" :uname="va.user_uname" :data-id="value.feed_id"  :commentid="va.comment_id" v-html="va.content"></p>
                         <p class="color-gray f12 pad-t-b-5">
                             <span>{{va.user_uname}}</span>
                             <span class="pad-l-5">
@@ -124,7 +124,7 @@
                     content:'',
                     ifShareFeed:'0',
                     comment_old:0,
-                    talkbox:this.talkbox
+                    talkbox:0
                 }
             },
             created:function(){
@@ -143,7 +143,9 @@
                     this.data=res.data.data;
                     setTimeout(function () {
                         $('.liuyan').click(function () {
-                            self.uid=$(this).attr('data-id')
+                            self.row_id=$(this).attr('data-id')
+                            self.condata.to_comment_id=0
+                            self.message=''
                             $('#shuru').show();
                             $("#ly").focus();
                             //console.log(this)
@@ -159,14 +161,13 @@
                     setTimeout(function () {
                         $('.con').click(function () {
                             self.message='回复@'+$(this).attr('uname')+'：'
+                            self.condata.row_id=$(this).attr('data-id')
+                            self.condata.to_comment_id=$(this).attr('comment_id')
                             $('#shuru').show();
                             $("#ly").focus();
                             //console.log(this)
                             //alert($(this).attr('data-id'))
                         })
-
-
-
                     },100)
 
                 },function(res){
@@ -190,8 +191,6 @@
                     ).then(function(res){
                         console.log(res.data);
                         this.data=res.data.data;
-
-
                     },function(res){
                         console.log(res.status);
                     });
@@ -199,22 +198,21 @@
                 comment:function(uid){
                     var self=this
                     self.touid=uid;
-                    var data={
-                        app_name:'public',
-                        table_name:'feed',
-                        app_uid:'',
-                        row_id:this.row_id,
-                        to_comment_id:this.to_comment_id,
-                        to_uid:this.to_uid,
-                        app_row_id:this.app_row_id,
-                        app_row_table:this.app_row_table,
-                        content:content,
-                        ifShareFeed:'0',
-                        comment_old:comment_old,
-                        app_detail_summary:$("#app_detail_summary").val(),
-                        app_detail_url:document.location.href,
-                        talkbox:this.talkbox
-                    }
+                    var data=self.condata
+                    data.uid=user_id
+                    data.token=token
+                    this.$http.post(
+                        hostUrl+'index.php?app=app&mod=profile&act=getcommentlist',
+                        data,
+                        {emulateJSON:true}
+                    ).then(function(res){
+                        console.log(res.data);
+                        this.data=res.data.data;
+
+
+                    },function(res){
+                        console.log(res.status);
+                    });
                 },
 
             },
