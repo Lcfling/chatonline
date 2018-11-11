@@ -70,7 +70,7 @@
                 <input v-model="message" id="ly" class="f1 border-no outline-no pad-l-5" type="text">
                 <img class="mar-l-r-5" src="img/face_icon.png" alt="" width="30">
             </div>
-            <img src="img/add_icon.png" alt="" width="40">
+            <img src="img/add_icon.png" alt="" width="40" @click="comment">
         </div>
     </div>
 
@@ -98,10 +98,10 @@
     </footer>
 </div>
     <script>
-        $('.liuyan ').click(function(){
+        /*$('.liuyan ').click(function(){
             $('#shuru').show();
             $('#shuru input').focus();
-        })
+        })*/
     </script>
     <script src="js/init.js"></script>
     <script>
@@ -142,24 +142,26 @@
                     console.log(res.data);
                     this.data=res.data.data;
                     setTimeout(function () {
-                        $('.liuyan').click(function () {
-                            self.row_id=$(this).attr('data-id')
+                        $('.liuyan').on('click',function (e) {
+                            self.condata.row_id=$(this).attr('data-id')
                             self.condata.to_comment_id=0
                             self.message=''
                             $('#shuru').show();
                             $("#ly").focus();
+                            e.stopPropagation();
                             //console.log(this)
                             //alert($(this).attr('data-id'))
                         })
-                        $('#ly').blur(function () {
+                        $('.content').click(function (e) {
                             $('#shuru').hide();
+                            //e.stopPropagation();
                         });
 
 
 
                     },100)
                     setTimeout(function () {
-                        $('.con').click(function () {
+                        $('.con').on('click',function (e) {
                             self.message='回复@'+$(this).attr('uname')+'：'
                             self.condata.row_id=$(this).attr('data-id')
                             self.condata.to_comment_id=$(this).attr('comment_id')
@@ -167,6 +169,7 @@
                             $("#ly").focus();
                             //console.log(this)
                             //alert($(this).attr('data-id'))
+                            e.stopPropagation();
                         })
                     },100)
 
@@ -195,19 +198,23 @@
                         console.log(res.status);
                     });
                 },
-                comment:function(uid){
+                comment:function(){
                     var self=this
-                    self.touid=uid;
+                    if(self.message==""){
+                        return;
+                    }
+                    self.condata.content=self.message;
                     var data=self.condata
                     data.uid=user_id
                     data.token=token
+                    console.log(data)
                     this.$http.post(
-                        hostUrl+'index.php?app=app&mod=profile&act=getcommentlist',
+                        hostUrl+'index.php?app=app&mod=profile&act=addcomment',
                         data,
                         {emulateJSON:true}
                     ).then(function(res){
                         console.log(res.data);
-                        this.data=res.data.data;
+                        //this.data=res.data.data;
 
 
                     },function(res){
