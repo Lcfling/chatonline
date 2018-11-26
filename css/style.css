@@ -1,5 +1,5 @@
 /*头部和底部*/
-.faces_box{position: fixed;bottom: 50px;display: none}
+.faces_box{position: fixed;bottom: 50px;display: none;z-index: 10}
 .faces_box a{display: inline-block}
 .faces_box.active{display: block}
 header{position: fixed;left:0;top:0;width:100%;height:40px;line-height:40px;display: -webkit-flex;align-items:stretch;text-align: center;background:#fff;border-bottom:1px solid #eee;color: #333;font-size: 18px;z-index: 9;}
@@ -15,3 +15,5 @@ footer .active p{color:#3f79df;}
     from{bottom:32px;right:15px;}
     to{bottom:100px;right:15px;}
 }
+.just_left{justify-content:flex-start!important;}
+.user_dt_img{margin-right: 12px;}

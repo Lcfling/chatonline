@@ -35,10 +35,17 @@
         <div id="useraction" class="flex pad-5-1 border-b-5-gray">
             <span>动态</span>
             <div class="f1 pad-l-r-1 flex re">
-                <a href="Iaction.html?type=space&uid=" class="f1 pad-l-r-1 flex re">
-                <img v-if="data.feed_new.type == 'postimage'" src="img/pic.jpg" alt="" width="45">
-                <p class="f1 pad-l-1 color-gray" style="line-height: 45px;">updaye avatar</p>
-                <span class="arrow"></span></a>
+                <a href="Iaction.html?type=space&uid=" class="f1 pad-l-r-1 flex re just_left">
+                    <template v-if="data.feed_new.type == 'postimage'">
+                        <img v-for="(value,key) in data.feed_new.var.attachInfo" v-if="key < 3" class="user_dt_img" :src="value.attach_medium" alt="" width="45">
+                    </template>
+
+
+
+                    <p v-if="data.feed_new.type == 'post'" v-html="data.feed_new.body" class="f1 pad-l-1 color-gray" style="line-height: 45px;">️ </p>
+
+                    <span class="arrow"></span>
+                </a>
             </div>
         </div>
         <div id="userphoto" class="flex pad-5-1 border-b-5-gray">
@@ -101,7 +108,7 @@
         </ul>
     </div>
     <footer class="flex space-ard bg-white border-t-gray">
-        <a href="upvip.html"><img src="img/vip_icon.png" alt="" width="25"></a>
+        <a :href="'upvip.html?other='+data.uid"><img src="img/vip_icon.png" alt="" width="25"></a>
         <a href="gift.html"><img src="img/gift_icon.png" alt="" width="25"></a>
     </footer>
 </div>
@@ -123,7 +130,9 @@
         el:'#app',
         data:{
             data:"",
-            isfollow:false
+            photo:"",
+            isfollow:false,
+            uid:'',
         },
         created:function(){
             var data={}
@@ -131,9 +140,22 @@
             var type=getQueryString('type')
             data.uid=user_id
             data.token=token
+            this.uid=uid
             //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
             this.$http.post(
                 hostUrl+'index.php?app=app&mod=profile&act=index&uid='+uid,
+                data,
+                {emulateJSON:true}
+            ).then(function(res){
+                console.log(res.data);
+                this.data=res.data.data;
+
+
+            },function(res){
+                console.log(res.status);
+            });
+            this.$http.post(
+                hostUrl+'index.php?app=app&mod=profile&act=feedlist&feed_type=postimage&uid='+uid,
                 data,
                 {emulateJSON:true}
             ).then(function(res){

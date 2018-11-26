@@ -36,14 +36,14 @@
         <p class="pad-5-1 f12">支付方式</p>
         <ul id="payway" class="bg-white pad-l-r-1">
             <li class="pad-t-b-1 border-b-gray flex flex-start-x">
-                <span class="radio2 active mar-r-1"></span>
+                <span class="radio2 active mar-r-1" data-type="gold"></span>
                 <p class="vmid">
                     <img class="vmid" src="img/jinbi.jpg" alt="" width="20">
                     金币
                 </p>
             </li>
             <li class="pad-t-b-1 flex flex-start-x">
-                <span class="radio2 mar-r-1"></span>
+                <span class="radio2 mar-r-1" data-type="paypal"></span>
                 <img src="img/paypal.jpg" alt="" width="90">
             </li>
         </ul>
@@ -64,16 +64,15 @@
             count:0,
             data:"",
             radio:'',
-            money:0
+            money:0,
+            paytype:'gold'
 
 
         },
         created:function(){
             var self=this
             var radio=getQueryString('radio');
-            if(radio==''||radio==undefined){
-                window.history.back();
-            }
+
             switch (radio){
                 case 'radio2':
                     self.money=9.5;
@@ -108,6 +107,13 @@
             ).then(function(res){
                 console.log(res.data);
                 self.data=res.data.data;
+                setTimeout(function () {
+                    $('#payway >li > span').click(function () {
+                        $('#payway >li > span').removeClass('active')
+                        $(this).addClass('active')
+                        self.paytype=$(this).attr('data-type');
+                    })
+                },100)
 
             },function(res){
                 console.log(res.status);

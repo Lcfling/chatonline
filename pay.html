@@ -131,7 +131,12 @@
                     {emulateJSON:true}
                 ).then(function(res){
                     console.log(res.data);
-                    self.data=res.data.data;
+                    if(res.data.status==1){
+                        self.data=res.data.data;
+                    }else{
+                        alert(res.data.info);
+                    }
+
 
                 },function(res){
                     console.log(res.status);
