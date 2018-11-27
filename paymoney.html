@@ -26,7 +26,7 @@
         <ul class="bg-white pad-l-r-1">
             <li class="line-height-3">
                 订单信息：
-                <span>购买字符</span>
+                <span>购买金币</span>
             </li>
             <li class="line-height-3">
                 应付金额：
@@ -35,15 +35,9 @@
         </ul>
         <p class="pad-5-1 f12">支付方式</p>
         <ul id="payway" class="bg-white pad-l-r-1">
-            <li class="pad-t-b-1 border-b-gray flex flex-start-x">
-                <span class="radio2 mar-r-1" data-type="gold"></span>
-                <p class="vmid">
-                    <img class="vmid" src="img/jinbi.jpg" alt="" width="20">
-                    金币
-                </p>
-            </li>
+
             <li class="pad-t-b-1 flex flex-start-x">
-                <span class="radio2 active mar-r-1" data-type="paypal"></span>
+                <span class="radio2 active mar-r-1"></span>
                 <img src="img/paypal.jpg" alt="" width="90">
             </li>
         </ul>
@@ -61,23 +55,17 @@
     var vm = new Vue({
         el:'#app',
         data:{
-            who:'',
-            other:'',
+            count:0,
             data:"",
-            money:0,
-            paytype:'paypal'
+            money:0
         },
         created:function(){
             var self=this
-            self.who=getQueryString('who');
-            self.other=getQueryString('other');
-            self.money=getQueryString('money');
+            self.money=getQueryString('money')
+
             var data={};
             data.uid=user_id;
             data.token=token;
-            data.who=self.who
-            data.other=self.other
-            data.money=self.money
             //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
             self.$http.post(
                 hostUrl+'index.php?app=app&mod=account&act=index',
@@ -86,13 +74,6 @@
             ).then(function(res){
                 console.log(res.data);
                 self.data=res.data.data;
-                setTimeout(function () {
-                    $('#payway >li > span').click(function () {
-                        $('#payway >li > span').removeClass('active')
-                        $(this).addClass('active')
-                        self.paytype=$(this).attr('data-type');
-                    })
-                },100)
 
             },function(res){
                 console.log(res.status);
@@ -104,17 +85,14 @@
                 var data={};
                 data.uid=user_id;
                 data.token=token;
-                data.who=self.who
-                data.other=self.other
                 data.money=self.money
-                data.paytype=self.paytype
                 if(data.radio==''){
                     alert()
                     return;
                 }
                 //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
                 self.$http.post(
-                    hostUrl+'index.php?app=app&mod=Payment&act=dovippay',
+                    hostUrl+'index.php?app=app&mod=Payment&act=charge',
                     data,
                     {emulateJSON:true}
                 ).then(function(res){
@@ -124,8 +102,6 @@
                     }else{
                         alert(res.data.info);
                     }
-
-
                 },function(res){
                     console.log(res.status);
                 });
