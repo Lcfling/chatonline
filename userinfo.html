@@ -35,7 +35,7 @@
         <div id="useraction" class="flex pad-5-1 border-b-5-gray">
             <span>动态</span>
             <div class="f1 pad-l-r-1 flex re">
-                <a href="Iaction.html?type=space&uid=" class="f1 pad-l-r-1 flex re">
+                <a :href="'Iaction.html?type=space&uid='+suid" class="f1 pad-l-r-1 flex re">
                 <img v-if="data.feed_new.type == 'postimage'" src="img/pic.jpg" alt="" width="45">
                 <p class="f1 pad-l-1 color-gray" style="line-height: 45px;">updaye avatar</p>
                 <span class="arrow"></span></a>
@@ -123,11 +123,13 @@
         el:'#app',
         data:{
             data:"",
-            isfollow:false
+            isfollow:false,
+            suid:''
         },
         created:function(){
             var data={}
             var uid=getQueryString('uid')
+            this.suid=uid
             var type=getQueryString('type')
             data.uid=user_id
             data.token=token
