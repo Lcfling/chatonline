@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
     <style>
 
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="Imy.html"><</a></div>
         <div class="f8">升级会员</div>
@@ -28,28 +31,28 @@
                 <span class="vmid">蓝钻会员</span>
             </p>
             <ul class="pad-l-r-1">
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="180">
                     <span class="radio mar-r-5 active"></span>
                     <div class="f1">12个月</div>
                     <div class="f1 center color-blue">$179.99</div>
                     <div class="f1 right color-gray">$15.00/月</div>
                 </li>
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="110">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">6个月</div>
                     <div class="f1 center color-blue">$109.99</div>
                     <div class="f1 right color-gray">$18.33/月</div>
                 </li>
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="60">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">3个月</div>
                     <div class="f1 center color-blue">$59.99</div>
                     <div class="f1 right color-gray">$20.00/月</div>
                 </li>
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="25">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">1个月</div>
-                    <div class="f1 center color-blue">$24.99</div>
+                    <div class="f1 center color-blue" >$24.99</div>
                     <div class="f1 right color-gray">$24.99/月</div>
                 </li>
             </ul>
@@ -60,32 +63,32 @@
                 <span class="vmid">黄钻会员</span>
             </p>
             <ul class="pad-l-r-1">
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="600">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">12个月</div>
                     <div class="f1 center color-orange">$599.99</div>
                     <div class="f1 right color-gray">$50.00/月</div>
                 </li>
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="350">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">6个月</div>
                     <div class="f1 center color-orange">$349.99</div>
                     <div class="f1 right color-gray">$58.33/月</div>
                 </li>
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="190">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">3个月</div>
                     <div class="f1 center color-orange">$189.99</div>
                     <div class="f1 right color-gray">$63.33/月</div>
                 </li>
-                <li class="border-b-gray pad-t-b-1 flex">
+                <li class="border-b-gray pad-t-b-1 flex" data-m="80">
                     <span class="radio mar-r-5"></span>
                     <div class="f1">1个月</div>
                     <div class="f1 center color-orange">$79.99</div>
                     <div class="f1 right color-gray">$79.99/月</div>
                 </li>
             </ul>
-            <div id="buy" class="button bg-blue">购买</div>
+            <div id="buy" @click="pay" class="button bg-blue">购买</div>
         </div>
 
         <p class="bg-gray pad-5-1 color-blue">蓝钻会员权限</p>
@@ -116,15 +119,46 @@
 
 
     </div>
-
+</div>
+    <script src="js/init.js"></script>
     <script>
-        $('#viplist li').click(function(){
-            $('#viplist li span').removeClass('active');
-            $(this).children('span').addClass('active');
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                who:"",
+                other:"",
+                money:180,
+                uid:'',
+            },
+            created:function(){
+                var self=this
+                var data={}
+                var who=getQueryString('who')
+                var other=getQueryString('other')
+
+                self.who=who
+                self.other=other
+
+
+
+
+                setTimeout(function () {
+                    $('.border-b-gray').click(function () {
+                        $('.border-b-gray > span').removeClass('active')
+                        $(this).find('span').addClass('active')
+                        self.money=$(this).attr('data-m');
+                    })
+                },100)
+
+
+            },
+            methods:{
+                pay:function (e) {
+                    window.location.href="payvip.html?who="+this.who+"&money="+this.money+"&other="+this.other;
+                }
+            }
         });
-        $('#buy').click(function(){
-            window.location.href='pay.html'
-        })
     </script>
 </body>
 </html>

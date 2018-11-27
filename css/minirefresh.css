@@ -19,6 +19,7 @@
 }
 
 .minirefresh-hardware-speedup {
+    background: rgb(238, 238, 244);
     -webkit-transform: translateZ(0);
     -moz-transform: translateZ(0);
     transform: translateZ(0)
