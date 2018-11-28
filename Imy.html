@@ -23,7 +23,7 @@
     </header>
 
     <div class="content bg-gray">
-        <a href="myinfo.html" class="mar-t-5 pad-t-b-1 bg-white flex">
+        <a :href="'myinfo.html?uid='+uid" class="mar-t-5 pad-t-b-1 bg-white flex">
             <img class="border-radius-y mar-l-1" :src="data.avatar_middle" alt="" width="45">
             <div class="f1 pad-l-1 flex flex-start-x re">
                 <span>{{data.uname}}</span>
@@ -85,7 +85,7 @@
 
 
     <footer class="flex center color-666 f13">
-        <a href="index.html" class="f1 active">
+        <a href="index.html" class="f1">
             <img src="img/foot_line.png" alt="" width="25">
             <p>在线</p>
         </a>
@@ -101,7 +101,7 @@
             <img src="img/foot_friend.png" alt="" width="25">
             <p>好友</p>
         </a>
-        <a href="Imy.html" class="f1">
+        <a href="Imy.html" class="f1  active">
             <img src="img/foot_my.png" alt="" width="25">
             <p>我</p>
         </a>
@@ -117,6 +117,7 @@
         data:{
             count:0,
             data:"",
+            uid:user_id,
         },
         created:function(){
             var data={}
