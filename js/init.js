@@ -22,6 +22,7 @@ if(!(L=="login.html"||L=="register.html")){
     }
 }
 
+
 //加载启动页面函数
 //autoload();
 //获取登录状态给全局参数   调用原生函数
