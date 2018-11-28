@@ -14,6 +14,13 @@ var hostUrl="https://www.mykissbear.com/"
 /*
 全局参数定义结束
 * */
+var L=getUrlname(window.location.href)
+
+if(!(L=="login.html"||L=="register.html")){
+    if(!(user_id>1)){
+        window.location.href="login.html";
+    }
+}
 
 //加载启动页面函数
 //autoload();
@@ -33,4 +40,10 @@ function getQueryString(name){
         return unescape(r[2]);
     }
     return null;
+}
+
+function getUrlname(url){
+    url=url.split('?')[0];
+    var urlSlashCount=url.split('/').length;
+    return url.split('/')[urlSlashCount-1].toLowerCase();
 }
