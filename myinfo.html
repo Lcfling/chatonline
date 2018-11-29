@@ -25,7 +25,8 @@
         <div class="f1"><img class="vmid" src="img/zuan.png" alt="" width="25"></div>
     </header>
     <div class="userpic flex re">
-        <img :src="data.avatar_original" alt="" width="100%">
+        <img :src="data.avatar_original"  alt="" width="100%">
+        <input type="file" name="Filedata" id="image" ref="uploadImage"  @change="getFile" class="col-10 ab l-t-0 opacity-0" style="height: 325px" multiple>
         <div class="ab col-10 l-b-0 mar-b-1 center">
             <!--<a href="chat_online.html"><img class="mar-r-1" src="img/user_chat.png" alt="" width="45"></a>
             <img id="sendadd" v-bind:class="{none: data.follow_state.following}"  class="re" src="img/user_add.png" alt="" width="45">-->
@@ -168,12 +169,70 @@
             });
         },
         methods:{
-            addf:function (e) {
-                $(e.target).addClass('active');
-                $(e.target).css({bottom: '25px', right: '5px'}).animate({bottom: '100px', right: '5px'}, function () {
-                    $(e.target).css({bottom: '25px', right: '5px'})
-                });
-            }
+            getFile(f){
+                console.log(f);
+                var self=this
+                this.loading=true;
+                var bankpic=f.target.files[0];
+                console.log(bankpic);
+                var str='';
+                var addpic=document.getElementById('addpic');
+
+                let type=bankpic.type;//文件的类型，判断是否是图片
+                let size=bankpic.size;//文件的大小，判断图片的大小
+
+                // if(size>512000){
+                //     alert('请选择500kb以内的图片！');
+                //     return false;
+                // }
+                let form = new FormData();
+                form.append('uid',user_id);
+                form.append('token',token);
+                form.append('Filedata',bankpic);
+                self.$http.post(
+                    hostUrl+'index.php?app=app&mod=Account&act=doSaveAvatar&step=upload',form,{
+                    headers:{'Content-Type':'multipart/form-data'}
+                }).then(res => {
+                    console.log(res.data);
+
+                    if(res.data.status=="1"){
+                        var data={}
+                        data.uid=user_id
+                        data.token=token
+                        data.picurl=res.data.data.picurl
+                        data.picwidth=res.data.data.picwidth
+                        data.fullpicurl=res.data.data.fullpicurl
+                        data.x1=0
+                        data.y1=0
+                        data.x2=res.data.data.picwidth
+                        data.y2=res.data.data.picwidth
+                        data.w=res.data.data.picwidth
+                        data.h=res.data.data.picwidth
+
+                        this.$http.post(
+                            hostUrl+'index.php?app=app&mod=Account&act=doSaveAvatar&step=save',
+                            data,
+                            {emulateJSON:true}
+                        ).then(function(res){
+                            console.log(res.data);
+                            if(res.data.status=="1"){
+                                window.location.reload();
+                            }else{
+                                alert(res.data.info);
+                            }
+                        },function(res){
+                            console.log(res.status);
+                        });
+                    }
+
+                }).catch(error => {
+                    alert('上传图片出错！');
+                    this.loading=false;
+                })
+
+                // this.file.prop("src",window.URL.createObjectURL(event.srcElement.files.item(0)));
+
+            },
         }
     });
 </script>
