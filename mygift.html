@@ -68,14 +68,14 @@
                     <div v-for="(va,ke) in send" class="giftlist">
                         <div>
                             <p class="title">礼物名称</p>
-                            <p >小熊</p>
+                            <p>{{va.giftname}}</p>
                         </div>
                         <div>
                             <p class="title">赠送人</p>
                             <p>{{va.reciver}}</p>
                         </div>
                         <div class="flex">
-                            <p>2018-09-18</p>
+                            <p>{{va.time}}</p>
                         </div>
                     </div>
                 </template>
