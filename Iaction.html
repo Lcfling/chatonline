@@ -156,8 +156,6 @@
                             //e.stopPropagation();
                         });
 
-
-
                     },100)
                     setTimeout(function () {
                         $('.con').on('click',function (e) {
@@ -171,6 +169,18 @@
                             e.stopPropagation();
                         })
                     },100)
+                    /*setTimeout(function () {
+                        $('.con').on('click',function (e) {
+                            self.message='回复@'+$(this).attr('uname')+'：'
+                            self.condata.row_id=$(this).attr('data-id')
+                            self.condata.to_comment_id=$(this).attr('comment_id')
+                            $('#shuru').show();
+                            $("#ly").focus();
+                            //console.log(this)
+                            //alert($(this).attr('data-id'))
+                            e.stopPropagation();
+                        })
+                    },100)*/
 
                 },function(res){
                     console.log(res.status);
@@ -221,7 +231,7 @@
                     });
                 },
                 feed:function () {
-                    var
+                    
                 }
 
             },
