@@ -7,9 +7,11 @@
     <title>动态</title>
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/minirefresh.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vue.dev.js"></script>
     <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/minirefresh.js"></script>
     <style>
         .conPic{width: 70px;height:0;padding-bottom:70px;overflow: hidden;}
         .comment:before{content: '';position: absolute;width: 0;height:0;border:8px solid transparent;border-bottom:8px solid #eeeef4;top:-16px;right:15px;}
@@ -20,46 +22,50 @@
     <header>
         <div class="f1"></div>
         <div class="f8">动态</div>
-        <div class="f1"><img class="mar-t-5" src="img/camera.png" alt="" width="20"></div>
+        <div class="f1"><img class="mar-t-5" src="img/add.png" alt="" width="20"></div>
     </header>
 
     <div class="content">
-        <ul class="">
-            <template v-if="data" v-for="(value,key) in data">
-            <li class="border-b-2-gray pad-1">
-                <div class="flex flex-start-x">
-                    <img class="border-radius-y" :src="value.user_info.avatar_big" alt="" width="40">
-                    <div class="pad-l-1">
-                        <p class="f15">{{value.user_info.uname}}</p>
-                        <p class="color-gray f13">{{value.publish_time}}</p>
-                    </div>
-                </div>
-                <p v-if="value.feed_data.type=='post'" class="pad-t-b-1" v-html="value.appbody"></p>
-                <p v-if="value.feed_data.type=='postimage'" class="pad-t-b-1">  </p>
-                <div v-if="value.feed_data.type=='postimage'" class="mar-b-5">
+        <div id="minirefresh" class="minirefresh-wrap">
+            <div class="minirefresh-scroll" style="background: #fff">
+                <ul class="">
+                    <template v-if="data" v-for="(value,key) in data">
+                        <li class="border-b-2-gray pad-1">
+                            <div class="flex flex-start-x">
+                                <img class="border-radius-y" :src="value.user_info.avatar_big" alt="" width="40">
+                                <div class="pad-l-1">
+                                    <p class="f15">{{value.user_info.uname}}</p>
+                                    <p class="color-gray f13">{{value.publish_time}}</p>
+                                </div>
+                            </div>
+                            <p v-if="value.feed_data.type=='post'" class="pad-t-b-1" v-html="value.appbody"></p>
+                            <p v-if="value.feed_data.type=='postimage'" class="pad-t-b-1">  </p>
+                            <div v-if="value.feed_data.type=='postimage'" class="mar-b-5">
                     <span v-for="(va,k) in value.var.attachInfo" class="conPic inline-block">
                         <img :src="va.attach_middle" alt="" width="100%">
                     </span>
-                </div>
-                <div class="liuyan right color-gray" :data-id="value.feed_id">
-                    <img class="vmid" src="img/info_icon.png" :data-id="value.feed_id" alt="" width="20">
-                    <span class="vmid">{{value.comment_count}}</span>
-                </div>
-                <ul v-if="value.comment_count>0" class="comment bg-gray2 pad-l-r-1 mar-t-1 re">
-                    <li v-for="(va,ky) in value.commentlist.data" class="border-b-gray pad-t-5">
-                        <p class="con" :uname="va.user_uname" :data-id="value.feed_id"  :commentid="va.comment_id" v-html="va.content"></p>
-                        <p class="color-gray f12 pad-t-b-5">
-                            <span>{{va.user_uname}}</span>
-                            <span class="pad-l-5">
+                            </div>
+                            <div class="liuyan right color-gray" :data-id="value.feed_id">
+                                <img class="vmid" src="img/info_icon.png" :data-id="value.feed_id" alt="" width="20">
+                                <span class="vmid">{{value.comment_count}}</span>
+                            </div>
+                            <ul v-if="value.comment_count>0" class="comment bg-gray2 pad-l-r-1 mar-t-1 re">
+                                <li v-for="(va,ky) in value.commentlist.data" class="border-b-gray pad-t-5">
+                                    <p class="con" :uname="va.user_uname" :data-id="value.feed_id"  :commentid="va.comment_id" v-html="va.content"></p>
+                                    <p class="color-gray f12 pad-t-b-5">
+                                        <span>{{va.user_uname}}</span>
+                                        <span class="pad-l-5">
                                 <img class="vmid" src="img/time_icon.png" alt="" width="15">
                                 <span>{{va.ctime}}</span>
                             </span>
-                        </p>
-                    </li>
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                    </template>
                 </ul>
-            </li>
-            </template>
-        </ul>
+            </div>
+        </div>
     </div>
 
     <div id="shuru" class="fix col-10 l-b-0 bg-white border-t-gray pad-l-r-5 none" style="height:55px;z-index: 10">
@@ -124,7 +130,8 @@
                     ifShareFeed:'0',
                     comment_old:0,
                     talkbox:0
-                }
+                },
+                lastId:0,
             },
             created:function(){
                 var self=this;
@@ -139,7 +146,9 @@
                     {emulateJSON:true}
                 ).then(function(res){
                     console.log(res.data);
-                    this.data=res.data.data;
+                    console.log(res.data.data.lists)
+                    this.data=res.data.data.lists.data;
+                    this.lastId=res.data.data.lastId
                     setTimeout(function () {
                         $('.liuyan').on('click',function (e) {
                             self.condata.row_id=$(this).attr('data-id')
@@ -170,6 +179,49 @@
                             //alert($(this).attr('data-id'))
                             e.stopPropagation();
                         })
+                    },100)
+                    setTimeout(function () {
+                        miniRefresh = new MiniRefresh({
+                            container: '#minirefresh',
+                            up: {
+                                callback: function() {
+                                    // 下拉事件
+                                    setTimeout(function () {
+                                        var data={}
+                                        var uid=getQueryString('uid')==null?'':getQueryString('uid')
+                                        var type=getQueryString('type')==null?'all':getQueryString('type')
+                                        data.uid=user_id
+                                        data.token=token
+                                        data.loadId=self.lastId
+                                        self.$http.post(
+                                            hostUrl+'index.php?app=app&mod=profile&act=feedlist&type='+type+'&uid='+uid,
+                                            data,
+                                            {emulateJSON:true}
+                                        ).then(function(res){
+                                            console.log(res.data);
+                                            console.log(res.data.data.lists)
+                                            self.lastId=res.data.data.lastId
+                                            for(var i=0;i<res.data.data.lists.data.length;i++){
+                                                self.data.push(res.data.data.lists.data[i]);
+                                            }
+                                            if(res.data.data.lists.loadmore==1){
+                                                miniRefresh.endUpLoading(false);
+                                            }else{
+                                                miniRefresh.endUpLoading(true);
+                                            }
+
+
+                                        },function(res){
+                                            console.log(res.status);
+                                        });
+
+                                    },100)
+                                }
+                            },
+                            down: {
+                                isLock:true
+                            }
+                        });
                     },100)
 
                 },function(res){

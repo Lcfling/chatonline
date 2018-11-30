@@ -213,6 +213,7 @@
                                             self.list.append(res.data.data[i])
                                             self.lastMessageId=res.data.data[i].message_id;
                                         }*/
+
                                         self.pullMessageLock = false;
                                         miniRefresh.endDownLoading();
                                     },function(res){
