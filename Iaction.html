@@ -73,7 +73,7 @@
             <img src="img/tr_icon.png" alt="" width="40">
             <div class="f1 flex border-b-gray mar-l-r-5">
                 <input v-model="message" id="ly" class="f1 border-no outline-no pad-l-5" type="text">
-                <img class="mar-l-r-5" src="img/face_icon.png" alt="" width="30">
+                <img @click="showfacebox" class="mar-l-r-5" src="img/face_icon.png" alt="" width="30">
             </div>
             <img src="img/add_icon.png" alt="" width="40" @click="comment">
         </div>
@@ -83,7 +83,7 @@
             <img src="img/tr_icon.png" alt="" width="40">
             <div class="f1 flex border-b-gray mar-l-r-5">
                 <input v-model="message" id="feedcont" class="f1 border-no outline-no pad-l-5" type="text">
-                <img class="mar-l-r-5" src="img/face_icon.png" alt="" width="30">
+                <img @click="showfacebox" class="mar-l-r-5" src="img/face_icon.png" alt="" width="30">
             </div>
             <img src="img/add_icon.png" alt="" width="40" @click="feed">
         </div>
@@ -142,6 +142,7 @@
                     talkbox:0
                 },
                 lastId:0,
+                facebox:false,
             },
             created:function(){
                 var self=this;
@@ -316,8 +317,19 @@
                     },function(res){
                         console.log(res.status);
                     });
+                },
+                choose:function (e) {
+                    console.log(e.target.parentNode.title)
+                    var face=e.target.parentNode.title
+                    if(face==""){
+                        return false;
+                    }
+                    this.message=this.message+'['+face+']';
+                    this.facebox=false;
+                },
+                showfacebox:function () {
+                    this.facebox=true;
                 }
-
             },
 
         });
