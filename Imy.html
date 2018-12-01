@@ -7,6 +7,7 @@
     <title>我</title>
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/lang/CN.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vue.dev.js"></script>
     <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
@@ -18,7 +19,7 @@
 <div id="app">
     <header>
         <div class="f1"></div>
-        <div class="f8">我</div>
+        <div class="f8 lang-my"></div>
         <div class="f1"></div>
     </header>
 
@@ -43,22 +44,22 @@
             <a href="mygift.html" class="flex">
                 <img class="border-radius-y mar-l-r-1" src="img/my_2.jpg" alt="" width="30">
                 <div class="f1 border-b-gray pad-r-1 pad-t-b-1 re">
-                    <span>礼物</span>
+                    <span class="lang-gift"></span>
                     <span class="arrow fr"></span>
                 </div>
             </a>
             <a href="fanyi.html" class="flex">
                 <img class="border-radius-y mar-l-r-1" src="img/my_3.jpg" alt="" width="30">
                 <div class="f1 border-b-gray pad-r-1 pad-t-b-1 re">
-                    <span>翻译包</span>
+                    <span class="lang-trans"></span>
                     <span class="arrow fr"></span>
-                    <span class="color-gray fr pad-r-2">{{data.score}}字符</span>
+                    <span class="color-gray fr pad-r-2">{{data.score}}<span class="lang-bit"></span></span>
                 </div>
             </a>
             <a href="yue.html" class="flex">
                 <img class="border-radius-y mar-l-r-1" src="img/my_4.jpg" alt="" width="30">
                 <div class="f1 pad-r-1 pad-t-b-1 re">
-                    <span>钱包</span>
+                    <span class="lang-wallet"></span>
                     <span class="arrow fr"></span>
                     <span class="color-orange fr pad-r-2">${{data.money}}</span>
                 </div>
@@ -66,17 +67,11 @@
         </div>
 
         <div class="mar-t-5 bg-white">
-            <a href="" class="flex">
-                <img class="border-radius-y mar-l-r-1" src="img/my_5.jpg" alt="" width="30">
-                <div class="f1 border-b-gray pad-r-1 pad-t-b-1 re">
-                    <span>帮助和反馈</span>
-                    <span class="arrow fr"></span>
-                </div>
-            </a>
+
             <a href="set.html" class="flex">
                 <img class="border-radius-y mar-l-r-1" src="img/my_6.jpg" alt="" width="30">
                 <div class="f1 pad-r-1 pad-t-b-1 re">
-                    <span>设置</span>
+                    <span class="lang-setting"></span>
                     <span class="arrow fr"></span>
                 </div>
             </a>
@@ -87,23 +82,23 @@
     <footer class="flex center color-666 f13">
         <a href="index.html" class="f1">
             <img src="img/foot_line.png" alt="" width="25">
-            <p>在线</p>
+            <p class="lang-online"></p>
         </a>
         <a href="Iinfo.html" class="f1">
             <img src="img/foot_info.png" alt="" width="25">
-            <p>消息</p>
+            <p class="lang-msg"></p>
         </a>
         <a href="Iaction.html" class="f1">
             <img src="img/foot_notice.png" alt="" width="25">
-            <p>动态</p>
+            <p class="lang-dt"></p>
         </a>
         <a href="Ifriend.html" class="f1">
             <img src="img/foot_friend.png" alt="" width="25">
-            <p>好友</p>
+            <p class="lang-friend"></p>
         </a>
-        <a href="Imy.html" class="f1  active">
+        <a href="Imy.html" class="f1 active">
             <img src="img/foot_my.png" alt="" width="25">
-            <p>我</p>
+            <p class="lang-my"></p>
         </a>
     </footer>
 

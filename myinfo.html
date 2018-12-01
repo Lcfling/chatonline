@@ -21,7 +21,7 @@
 <div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="index.html"><</a></div>
-        <div class="f8">个人信息</div>
+        <div class="f8 lang-person"></div>
         <div class="f1"><img class="vmid" src="img/zuan.png" alt="" width="25"></div>
     </header>
     <div class="userpic flex re">
@@ -34,14 +34,12 @@
     </div>
     <div style="padding-bottom:50px;">
         <div id="useraction" class="flex pad-5-1 border-b-5-gray">
-            <span>动态</span>
+            <span class="lang-dt"></span>
             <div class="f1 pad-l-r-1 flex re">
                 <a href="Iaction.html?type=space&uid=" class="f1 pad-l-r-1 flex re just_left">
                     <template v-if="data.feed_new.type == 'postimage'">
                         <img v-for="(value,key) in data.feed_new.var.attachInfo" v-if="key < 3" class="user_dt_img" :src="value.attach_medium" alt="" width="45">
                     </template>
-
-
 
                     <p v-if="data.feed_new.type == 'post'" v-html="data.feed_new.body" class="f1 pad-l-1 color-gray" style="line-height: 45px;">️ </p>
 
@@ -50,7 +48,7 @@
             </div>
         </div>
         <div id="userphoto" class="flex pad-5-1 border-b-5-gray">
-            <span>相册</span>
+            <span class="lang-photo"></span>
             <div class="f1 pad-l-r-1 flex flex-end-x re">
                 <img class="mar-l-5" src="img/pic.jpg" alt="" width="45">
                 <img class="mar-l-5" src="img/pic.jpg" alt="" width="45">
@@ -59,50 +57,50 @@
             </div>
         </div>
         <div class="pad-5-1 border-b-5-gray">
-            <span>关于我</span>
+            <span class="lang-aboutme"></span>
             <div class="f1 pad-t-5 color-gray">
                 啊是个好老师洒落的隔阂
             </div>
         </div>
         <ul class="pad-l-r-1 line-height-3">
             <li class="border-b-gray">
-                <span>用户名</span>
+                <span class="lang-username"></span>
                 <span class="color-gray fr">Tiye</span>
             </li>
             <li class="border-b-gray">
-                <span>性别</span>
+                <span class="lang-sex"></span>
                 <span class="color-gray fr">女</span>
             </li>
             <li class="border-b-gray">
-                <span>生日</span>
+                <span class="lang-birthday"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>年龄</span>
+                <span class="lang-year"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>居住地</span>
+                <span class="lang-location"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>身高</span>
+                <span class="lang-height"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>体重</span>
+                <span class="lang-wight"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>学历</span>
+                <span class="lang-school"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>工作</span>
+                <span class="lang-job"></span>
                 <span class="color-gray fr">无</span>
             </li>
             <li class="border-b-gray">
-                <span>婚姻</span>
+                <span class="lang-marriage"></span>
                 <span class="color-gray fr">无</span>
             </li>
 
