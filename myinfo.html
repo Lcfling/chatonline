@@ -23,7 +23,7 @@
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="index.html"><</a></div>
         <div class="f8 lang-person"></div>
-        <div class="f1"><img class="vmid" src="img/zuan.png" alt="" width="25"></div>
+        <div class="f1"><img v-if="data.vip==1" class="vmid" src="img/zuan.png" alt="" width="25"><img v-if="data.vip==2" class="vmid" src="img/zuan2.png" alt="" width="25"></div>
     </header>
     <div class="userpic flex re">
         <img :src="data.avatar_original"  alt="" width="100%">

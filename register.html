@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
     <style>
         .info li span{display: inline-block;width: 60px;}
         .sex span{border-radius: 3px;text-align: center;border:1px dashed #ff7f38;color:#ff7f38;}
@@ -17,6 +19,7 @@
     </style>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="f1 arrow2"><a class="block opacity-0" href="login.html"><</a></div>
         <div class="f8">注册账号</div>
@@ -27,50 +30,104 @@
             <ul class="info pad-t-b-1">
                 <li class="pad-1-5 border-b-gray">
                     <span>用户名</span>
-                    <input class="border-no outline-no" type="text" placeholder="4-20位字母或数字">
+                    <input class="border-no outline-no" v-model="uname" type="text" placeholder="4-20位字母或数字">
                 </li>
                 <li class="pad-1-5 border-b-gray">
                     <span>邮箱</span>
-                    <input class="border-no outline-no" type="text" placeholder="输入邮箱">
+                    <input class="border-no outline-no" v-model="email" type="text" placeholder="输入邮箱">
                 </li>
                 <li class="pad-1-5 border-b-gray">
                     <span>密码</span>
-                    <input class="border-no outline-no" type="password" placeholder="6-20位字符">
+                    <input class="border-no outline-no" v-model="password" type="password" placeholder="6-20位字符">
                     <img class="eyes fr filter-gray" src="img/eyes.png" alt="" width="20">
                 </li>
                 <li class="pad-1-5 border-b-gray">
                     <span>密码</span>
-                    <input class="border-no outline-no" type="password" placeholder="确认密码">
+                    <input class="border-no outline-no" v-model="repassword" type="password" placeholder="确认密码">
                     <img class="eyes fr filter-gray" src="img/eyes.png" alt="" width="20">
                 </li>
                 <li class="pad-1-5 border-b-gray flex" style="height:50px;">
                     <span>性别</span>
                     <div class="sex f1 line-height-2">
-                        <span class="active mar-r-1">男</span>
-                        <span>女</span>
+                        <span class="active mar-r-1" data-sex="1">男</span>
+                        <span data-sex="2">女</span>
                     </div>
                 </li>
             </ul>
-
             <p class="f12">注册即表示您同意<a class="color-blue" href="">《Mykissbear用户使用协议》</a></p>
         </div>
-
-        <div class="button bg-blue">提交</div>
+        <div class="button bg-blue" @click="reg">提交</div>
     </div>
-
+</div>
     <script>
-        $('.sex span').click(function () {
-            $(this).addClass('active').siblings().removeClass('active');
-        });
-        $('.eyes').click(function(){
-            if($(this).hasClass('filter-gray')){
-                $(this).removeClass('filter-gray');
-                $(this).parent().find('input').attr('type','text')
-            }else{
-                $(this).addClass('filter-gray');
-                $(this).parent().find('input').attr('type','password')
+
+    </script>
+    <script src="js/init.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                email:'',
+                uname:'',
+                password:'',
+                repassword:'',
+                sex:1,
+                data:"",
+            },
+            created:function(){
+                var self=this
+
+                setTimeout(function () {
+                    $('.sex span').click(function () {
+                        $(this).addClass('active').siblings().removeClass('active');
+                    });
+                    $('.eyes').click(function(){
+                        if($(this).hasClass('filter-gray')){
+                            $(this).removeClass('filter-gray');
+                            $(this).parent().find('input').attr('type','text')
+                        }else{
+                            $(this).addClass('filter-gray');
+                            $(this).parent().find('input').attr('type','password')
+                        }
+                    })
+
+                    $('.sex span').click(function () {
+                        self.sex=$(this).attr('data-sex')
+                    })
+                },100)
+            },
+            methods:{
+                reg:function () {
+                    var self=this;
+                    var data={};
+                    data.uname=self.uname;
+                    data.email=self.email;
+                    data.password=self.password;
+                    data.repassword=self.repassword;
+                    data.sex=self.sex;
+                    data.regType="email";
+
+                    //alert(hostUrl+'index.php?app=app&mod=Passport&act=dologin')
+                    self.$http.post(
+                        hostUrl+'index.php?app=app&mod=register&act=dostep1',
+                        data,
+                        {emulateJSON:true}
+                    ).then(function(res){
+                        console.log(res.data);
+                        if(res.data.status==1){
+                            alert(res.data.info)
+                            //localStorage.user_id=json.data.uid;
+                            //localStorage.token=json.data.token;
+                            window.location.href="login.html";
+                        }else{
+                            alert(res.data.info);
+                        }
+                    },function(res){
+                        console.log(res.status);
+                    });
+                }
             }
-        })
+        });
     </script>
 
 </body>

@@ -28,7 +28,8 @@
             <img class="border-radius-y mar-l-1" :src="data.avatar_middle" alt="" width="45">
             <div class="f1 pad-l-1 flex flex-start-x re">
                 <span>{{data.uname}}</span>
-                <img class="mar-l-5" src="img/zuan.png" alt="" width="20">
+                <img v-if="data.vip==1" class="mar-l-5" src="img/zuan.png" alt="" width="20">
+                <img v-if="data.vip==2" class="mar-l-5" src="img/zuan2.png" alt="" width="20">
                 <span class="arrow ab" style="right:0"></span>
             </div>
         </a>
